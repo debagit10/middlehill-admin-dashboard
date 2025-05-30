@@ -1,5 +1,5 @@
 import { Typography, Grid, Button } from "@mui/material";
-import logo from "../../images/logo.png";
+import logo from "../../logo/Logo.png";
 import OtpInput from "../../utils/OtpInput";
 import React from "react";
 

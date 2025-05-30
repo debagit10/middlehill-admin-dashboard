@@ -36,7 +36,7 @@ const Pages: React.FC<PagesProps> = ({ children, page }) => {
         </div>
         <Divider />
 
-        <div className="px-5">{children}</div>
+        <div className="px-5 bg-[#FAFAFA] h-[90vh]">{children}</div>
       </div>
     </div>
   );
