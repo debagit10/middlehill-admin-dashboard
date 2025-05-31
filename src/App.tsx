@@ -11,6 +11,8 @@ const Business_Mgt = React.lazy(() => import("./pages/Business_Mgt"));
 const Admin_Mgt = React.lazy(() => import("./pages/Admin_Mgt"));
 const Settings = React.lazy(() => import("./pages/Settings"));
 
+const Business = React.lazy(() => import("./pages/details/Business"));
+
 function App() {
   return (
     <Routes>
@@ -22,6 +24,8 @@ function App() {
       <Route path="/business-mgt" element={<Business_Mgt />} />
       <Route path="/admin-mgt" element={<Admin_Mgt />} />
       <Route path="/settings" element={<Settings />} />
+
+      <Route path="/business/:id" element={<Business />} />
     </Routes>
   );
 }

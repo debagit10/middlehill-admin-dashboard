@@ -15,6 +15,7 @@ import Pages from "../container/Pages";
 import { FiSearch } from "react-icons/fi";
 import { FiFilter } from "react-icons/fi";
 import Actions from "../components/business_mgt/Actions";
+import { useNavigate } from "react-router-dom";
 
 const rows = [
   {
@@ -34,6 +35,7 @@ const rows = [
 ];
 
 const Business_Mgt = () => {
+  const navigate = useNavigate();
   return (
     <Pages page="Business Management">
       <div className="flex justify-between py-[1rem]">
@@ -103,7 +105,11 @@ const Business_Mgt = () => {
                   },
                 }}
               >
-                <TableCell component="th" scope="row">
+                <TableCell
+                  component="th"
+                  scope="row"
+                  onClick={() => navigate("/business/123")}
+                >
                   <Typography
                     color="#101928"
                     sx={{ fontFamily: "Open Sans, sans-serif" }}
@@ -113,7 +119,10 @@ const Business_Mgt = () => {
                     {row.name}
                   </Typography>
                 </TableCell>
-                <TableCell align="left">
+                <TableCell
+                  align="left"
+                  onClick={() => navigate("/business/123")}
+                >
                   <Typography
                     color="#344054"
                     sx={{ fontFamily: "Open Sans, sans-serif" }}
@@ -123,7 +132,10 @@ const Business_Mgt = () => {
                     {row.address}
                   </Typography>
                 </TableCell>
-                <TableCell align="left">
+                <TableCell
+                  align="left"
+                  onClick={() => navigate("/business/123")}
+                >
                   <Typography
                     color="#344054"
                     sx={{ fontFamily: "Open Sans, sans-serif" }}
@@ -133,7 +145,10 @@ const Business_Mgt = () => {
                     {row.transactions}
                   </Typography>
                 </TableCell>
-                <TableCell align="left">
+                <TableCell
+                  align="left"
+                  onClick={() => navigate("/business/123")}
+                >
                   <Typography
                     color="#344054"
                     sx={{ fontFamily: "Open Sans, sans-serif" }}
@@ -143,7 +158,10 @@ const Business_Mgt = () => {
                     {row.accuracy}
                   </Typography>
                 </TableCell>
-                <TableCell align="left">
+                <TableCell
+                  align="left"
+                  onClick={() => navigate("/business/123")}
+                >
                   <Chip
                     label={row.status}
                     sx={{

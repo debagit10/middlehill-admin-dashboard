@@ -7,7 +7,7 @@ import Notification from "../components/navbar/Notification";
 
 interface PagesProps {
   children?: React.ReactNode;
-  page: string;
+  page?: string;
 }
 
 const Pages: React.FC<PagesProps> = ({ children, page }) => {
