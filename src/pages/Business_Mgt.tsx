@@ -1,6 +1,5 @@
 import {
   TableContainer,
-  Paper,
   Table,
   TableHead,
   TableRow,
@@ -10,8 +9,12 @@ import {
   Button,
   Chip,
   Typography,
+  InputAdornment,
 } from "@mui/material";
 import Pages from "../container/Pages";
+import { FiSearch } from "react-icons/fi";
+import { FiFilter } from "react-icons/fi";
+import Actions from "../components/business_mgt/Actions";
 
 const rows = [
   {
@@ -33,25 +36,49 @@ const rows = [
 const Business_Mgt = () => {
   return (
     <Pages page="Business Management">
-      <div className="flex justify-end py-[3rem]">
-        <div className="flex gap-[8px]">
-          <TextField placeholder="Search here..." size="small" />
-          <Button
-            sx={{
-              paddingY: "8px",
-              paddingX: "16px",
-              textTransform: "capitalize",
-              color: "black",
+      <div className="flex justify-between py-[1rem]">
+        <TextField
+          placeholder="Search business"
+          size="small"
+          sx={{
+            "& .MuiOutlinedInput-root": {
               borderRadius: "8px",
-              border: "1px solid #E7E9EB",
-            }}
-          >
-            Filter
-          </Button>
-        </div>
+            },
+          }}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <FiSearch />
+              </InputAdornment>
+            ),
+          }}
+        />
+        <Button
+          sx={{
+            paddingY: "8px",
+            paddingX: "16px",
+            textTransform: "capitalize",
+            color: "black",
+            borderRadius: "8px",
+            border: "1px solid #E7E9EB",
+          }}
+        >
+          <div className="flex gap-[8px] text-[#344054]">
+            <FiFilter className="pt-[3px] w-[16.76px] h-[16.76px]" />
+            <Typography
+              fontSize={14}
+              fontWeight={400}
+              fontFamily="Open Sans, sans-serif"
+            >
+              Filter
+            </Typography>
+          </div>
+        </Button>
       </div>
 
-      <TableContainer sx={{ borderRadius: "8px", border: "1px solid #D0D5DD" }}>
+      <TableContainer
+        sx={{ borderRadius: "8px", border: "0.5px solid #D0D5DD" }}
+      >
         <Table sx={{ minWidth: 650 }} aria-label="simple table" size="small">
           <TableHead>
             <TableRow sx={{ backgroundColor: "#F0F2F5", height: "45px" }}>
@@ -60,7 +87,7 @@ const Business_Mgt = () => {
               <TableCell align="left">Transactions</TableCell>
               <TableCell align="left">Accuracy</TableCell>
               <TableCell align="left">Status</TableCell>
-              <TableCell align="left">Options</TableCell>
+              <TableCell align="left" />
             </TableRow>
           </TableHead>
 
@@ -69,6 +96,7 @@ const Business_Mgt = () => {
               <TableRow
                 key={row.name}
                 sx={{
+                  height: "50px",
                   "&:last-child td, &:last-child th": { border: 0 },
                   "&:hover": {
                     cursor: "pointer",
@@ -128,7 +156,9 @@ const Business_Mgt = () => {
                     }}
                   />
                 </TableCell>
-                <TableCell />
+                <TableCell>
+                  <Actions />
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
