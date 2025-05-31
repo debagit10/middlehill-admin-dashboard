@@ -17,7 +17,7 @@ const Sidebar = () => {
       <div>
         {/* Logo Section */}
         <div
-          className="flex gap-[4px] py-[33px] px-[16px] cursor-pointer mb-[24px]"
+          className="flex gap-[4px] py-[23px] px-[16px] cursor-pointer mb-[24px]"
           onClick={() => navigate("/dashboard")}
         >
           <img className="h-[21.5px] w-[28.41px]" src={logo} alt="logo" />

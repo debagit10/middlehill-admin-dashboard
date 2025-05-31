@@ -2,6 +2,7 @@ import Pages from "../../container/Pages";
 import { Button, Typography } from "@mui/material";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
+import Business_tabs from "../../tabs/Business_tabs";
 
 const Business = () => {
   const navigate = useNavigate();
@@ -54,6 +55,10 @@ const Business = () => {
             Business Details
           </Typography>
         </div>
+      </div>
+
+      <div className="mt-[2rem]">
+        <Business_tabs />
       </div>
     </Pages>
   );
