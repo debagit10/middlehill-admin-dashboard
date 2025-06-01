@@ -1,4 +1,7 @@
 import { Chip, TextField, Typography } from "@mui/material";
+import Total_transactions from "../profile/Total_transactions";
+import Avg_txn from "../profile/Avg_txn";
+import Graph from "../profile/Graph";
 
 interface LabeledInputProps {
   label: string;
@@ -51,51 +54,67 @@ const singleInput = {
 
 const Overview = () => {
   return (
-    <div className="border 1px border-[#E5E5E5] w-[513px] rounded-[12px] p-[24px] ">
-      <Typography
-        color="#101928"
-        fontWeight={600}
-        fontSize={20}
-        fontFamily="Open Sans, sans-serif"
-      >
-        Profile Details
-      </Typography>
+    <div className="flex gap-[2rem] ">
+      <div className="border 1px border-[#E5E5E5] w-[513px] rounded-[12px] p-[24px] ">
+        <Typography
+          color="#101928"
+          fontWeight={600}
+          fontSize={20}
+          fontFamily="Open Sans, sans-serif"
+        >
+          Profile Details
+        </Typography>
 
-      <div className="flex flex-col mt-[1rem]">
-        <div className="flex flex-col gap-[8px] max-w-2xl">
-          {inputGroups.map((group, i) => (
-            <div key={i} className="flex gap-[8px] mb-2">
-              {group.map(({ label, value }, idx) => (
-                <LabeledInput key={idx} label={label} value={value} />
-              ))}
+        <div className="flex flex-col mt-[1rem]">
+          <div className="flex flex-col gap-[8px] max-w-2xl">
+            {inputGroups.map((group, i) => (
+              <div key={i} className="flex gap-[8px] mb-2">
+                {group.map(({ label, value }, idx) => (
+                  <LabeledInput key={idx} label={label} value={value} />
+                ))}
+              </div>
+            ))}
+
+            <div className="w-full">
+              <LabeledInput
+                label={singleInput.label}
+                value={singleInput.value}
+              />
             </div>
-          ))}
-
-          <div className="w-full">
-            <LabeledInput label={singleInput.label} value={singleInput.value} />
           </div>
+        </div>
+
+        <div className="my-3">
+          <Typography
+            color="#475367"
+            fontWeight={600}
+            fontSize={14}
+            fontFamily="Open Sans, sans-serif"
+          >
+            Status
+          </Typography>
+          <Chip
+            label="Active Today"
+            sx={{
+              backgroundColor: "#E6F4EA",
+              color: "#27AE60",
+              fontWeight: 600,
+              fontSize: "14px",
+              fontFamily: "Open Sans, sans-serif",
+            }}
+          />
         </div>
       </div>
 
-      <div className="my-3">
-        <Typography
-          color="#475367"
-          fontWeight={600}
-          fontSize={14}
-          fontFamily="Open Sans, sans-serif"
-        >
-          Status
-        </Typography>
-        <Chip
-          label="Active Today"
-          sx={{
-            backgroundColor: "#E6F4EA",
-            color: "#27AE60",
-            fontWeight: 600,
-            fontSize: "14px",
-            fontFamily: "Open Sans, sans-serif",
-          }}
-        />
+      <div className="flex flex-col gap-[1rem] ">
+        <div className="flex gap-[1rem]">
+          <Total_transactions />
+          <Avg_txn />
+        </div>
+
+        <div>
+          <Graph />
+        </div>
       </div>
     </div>
   );
