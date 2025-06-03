@@ -12,6 +12,7 @@ import {
 import { FiSearch } from "react-icons/fi";
 import Pages from "../container/Pages";
 import Add_admin from "../modals/admin/Add_admin";
+import Actions from "../components/admin_mgt/Actions";
 
 const rows = [
   {
@@ -64,6 +65,7 @@ const Admin_Mgt = () => {
               <TableCell align="left">Email</TableCell>
               <TableCell align="left">Role</TableCell>
               <TableCell align="left">Last login</TableCell>
+              <TableCell align="left" />
             </TableRow>
           </TableHead>
 
@@ -115,6 +117,10 @@ const Admin_Mgt = () => {
                   >
                     {row.accuracy}
                   </Typography>
+                </TableCell>
+
+                <TableCell align="left">
+                  <Actions />
                 </TableCell>
               </TableRow>
             ))}

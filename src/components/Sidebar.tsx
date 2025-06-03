@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 const sideItems = [
   { id: 1, name: "Dashboard", icon: logo, route: "/dashboard" },
   { id: 1, name: "Business Management", icon: logo, route: "/business-mgt" },
-  { id: 1, name: "Transactions", icon: logo, route: "/transactions" },
+
   { id: 1, name: "Admin Management", icon: logo, route: "/admin-mgt" },
 ];
 
