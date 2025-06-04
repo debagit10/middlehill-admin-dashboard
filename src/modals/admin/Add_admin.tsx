@@ -11,6 +11,8 @@ import React, { useState } from "react";
 import generateRandomPassword from "../../utils/Password";
 import { IoCloseOutline } from "react-icons/io5";
 
+import { IoAddOutline } from "react-icons/io5";
+
 interface AdminDetails {
   name: string;
   email: string;
@@ -61,14 +63,17 @@ const Add_admin = () => {
   return (
     <div>
       <Button
-        variant="contained"
         sx={{
-          borderRadius: "8px",
-          backgroundColor: "#1358A3",
+          borderRadius: "12px",
+          backgroundColor: "#1961B5",
           textTransform: "capitalize",
           fontFamily: "Open Sans, sans-serif",
+          width: "144px",
+          height: "48px",
+          color: "#FFFFFF",
         }}
         onClick={handleClickOpen}
+        startIcon={<IoAddOutline />}
       >
         Add admin
       </Button>

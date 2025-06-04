@@ -1,4 +1,4 @@
-import { FormControl, InputLabel, Select, MenuItem } from "@mui/material";
+import { FormControl, Select, MenuItem } from "@mui/material";
 import { LineChart } from "@mui/x-charts/LineChart";
 import { useState, useEffect } from "react";
 import dayjs from "dayjs";
@@ -165,6 +165,7 @@ const Graph = () => {
         dataset={chartData}
         xAxis={[
           {
+            scaleType: "point",
             label: "Days",
             dataKey: "x",
             ticks: xTicks,
@@ -172,7 +173,7 @@ const Graph = () => {
               formatDayWithSuffix(Number(value)),
           },
         ]}
-        series={[{ dataKey: "y" }]}
+        series={[{ dataKey: "y", showMark: false }]}
         yAxis={[
           {
             max: ticks[ticks.length - 1],
