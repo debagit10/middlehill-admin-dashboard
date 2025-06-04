@@ -1,12 +1,29 @@
 import logo from "../logo/Logo_white.png";
 import { Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { LuLayoutDashboard } from "react-icons/lu";
+import { BsCash } from "react-icons/bs";
+import { TbUsers } from "react-icons/tb";
+
+import { IoSettingsOutline } from "react-icons/io5";
+import { CiLogout } from "react-icons/ci";
+import React from "react";
 
 const sideItems = [
-  { id: 1, name: "Dashboard", icon: logo, route: "/dashboard" },
-  { id: 1, name: "Business Management", icon: logo, route: "/business-mgt" },
+  {
+    id: 1,
+    name: "Dashboard",
+    icon: <LuLayoutDashboard />,
+    route: "/dashboard",
+  },
+  {
+    id: 1,
+    name: "Business Management",
+    icon: <BsCash />,
+    route: "/business-mgt",
+  },
 
-  { id: 1, name: "Admin Management", icon: logo, route: "/admin-mgt" },
+  { id: 1, name: "Admin Management", icon: <TbUsers />, route: "/admin-mgt" },
 ];
 
 const Sidebar = () => {
@@ -35,10 +52,10 @@ const Sidebar = () => {
           {sideItems.map((item, index) => (
             <div
               key={index}
-              className="flex gap-[12px] py-[12px] px-[16px] rounded-[4px] cursor-pointer"
+              className="flex items-center gap-[12px] py-[12px] px-[16px] rounded-[4px] cursor-pointer"
               onClick={() => navigate(item.route)}
             >
-              <img src={item.icon} alt="icon" />
+              <div>{React.cloneElement(item.icon, { size: 18 })}</div>
               <Typography
                 fontWeight={400}
                 sx={{ fontFamily: "Open Sans, sans-serif" }}
@@ -57,7 +74,7 @@ const Sidebar = () => {
           className="flex gap-[12px] items-center cursor-pointer"
           onClick={() => navigate("/settings")}
         >
-          <img src={logo} alt="Settings" />
+          <IoSettingsOutline size={18} />
           <Typography
             fontWeight={400}
             sx={{ fontFamily: "Open Sans, sans-serif" }}
@@ -67,7 +84,7 @@ const Sidebar = () => {
           </Typography>
         </div>
         <div className="flex gap-[12px] items-center cursor-pointer">
-          <img src={logo} alt="Logout" />
+          <CiLogout size={18} />
           <Typography
             fontWeight={400}
             sx={{ fontFamily: "Open Sans, sans-serif" }}
