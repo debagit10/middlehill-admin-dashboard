@@ -1,13 +1,14 @@
 import logo from "../logo/Logo_white.png";
 import { Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { BsCash } from "react-icons/bs";
 import { TbUsers } from "react-icons/tb";
 
 import { IoSettingsOutline } from "react-icons/io5";
 import { CiLogout } from "react-icons/ci";
-import React from "react";
+
+import { useNavigate, useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 
 const sideItems = [
   {
@@ -28,6 +29,14 @@ const sideItems = [
 
 const Sidebar = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const [activeRoute, setActiveRoute] = useState(location.pathname);
+
+  useEffect(() => {
+    setActiveRoute(location.pathname); // syncs state with actual route on load or refresh
+  }, [location.pathname]);
+
   return (
     <div className="w-[272px] bg-[#1358A3] flex flex-col justify-between text-white p-[.5rem] h-[100vh]">
       {/* Top Section */}
@@ -49,30 +58,50 @@ const Sidebar = () => {
 
         {/* Sidebar Items */}
         <div className="flex flex-col gap-[4px]">
-          {sideItems.map((item, index) => (
-            <div
-              key={index}
-              className="flex items-center gap-[12px] py-[12px] px-[16px] rounded-[4px] cursor-pointer"
-              onClick={() => navigate(item.route)}
-            >
-              <div>{React.cloneElement(item.icon, { size: 18 })}</div>
-              <Typography
-                fontWeight={400}
-                sx={{ fontFamily: "Open Sans, sans-serif" }}
-                fontSize="14px"
+          {sideItems.map((item, index) => {
+            return (
+              <div
+                key={index}
+                className={`flex items-center gap-[12px] py-[12px] px-[16px] rounded-[8px] cursor-pointer transition-all duration-300 ease-in-out ${
+                  activeRoute === item.route
+                    ? "bg-[#FFFFFF33] text-[#FFFFFF] font-semibold"
+                    : ""
+                }`}
+                onClick={() => {
+                  navigate(item.route);
+                  setActiveRoute(item.route);
+                }}
               >
-                {item.name}
-              </Typography>
-            </div>
-          ))}
+                <div>
+                  {React.cloneElement(item.icon, {
+                    size: 18,
+                  })}
+                </div>
+                <Typography
+                  fontWeight={400}
+                  sx={{ fontFamily: "Open Sans, sans-serif" }}
+                  fontSize="14px"
+                >
+                  {item.name}
+                </Typography>
+              </div>
+            );
+          })}
         </div>
       </div>
 
       {/* Bottom Section */}
       <div className="flex flex-col gap-[12px] mb-[24px] px-[16px]">
         <div
-          className="flex gap-[12px] items-center cursor-pointer"
-          onClick={() => navigate("/settings")}
+          className={`flex items-center gap-[12px] py-[12px] px-[16px] rounded-[8px] cursor-pointer transition-all duration-300 ease-in-out ${
+            activeRoute === "/settings"
+              ? "bg-[#FFFFFF33] text-[#FFFFFF] font-semibold"
+              : ""
+          }`}
+          onClick={() => {
+            navigate("/settings");
+            setActiveRoute("/settings");
+          }}
         >
           <IoSettingsOutline size={18} />
           <Typography
@@ -83,7 +112,7 @@ const Sidebar = () => {
             Settings
           </Typography>
         </div>
-        <div className="flex gap-[12px] items-center cursor-pointer">
+        <div className="flex items-center gap-[12px] py-[12px] px-[16px] rounded-[8px] cursor-pointer">
           <CiLogout size={18} />
           <Typography
             fontWeight={400}
