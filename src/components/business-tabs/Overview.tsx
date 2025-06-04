@@ -1,7 +1,7 @@
 import { Chip, TextField, Typography } from "@mui/material";
-import Total_transactions from "../profile/Total_transactions";
-import Avg_txn from "../profile/Avg_txn";
-import Graph from "../profile/Graph";
+import Total_transactions from "../business_mgt/Total_transactions";
+import Avg_txn from "../business_mgt/Avg_txn";
+import Graph from "../business_mgt/Graph";
 
 interface LabeledInputProps {
   label: string;

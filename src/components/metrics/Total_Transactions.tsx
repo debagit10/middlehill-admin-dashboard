@@ -3,7 +3,7 @@ import graph from "../../images/tot_txn.png";
 
 const Total_Transactions = () => {
   return (
-    <div className="flex flex-col gap-[11px] bg-[#FFFFFF] py-[12px] px-[15px] rounded-[10px] w-[363px] h-[137px]">
+    <div className="flex flex-col gap-[11px] bg-[#FFFFFF] py-[12px] px-[15px] rounded-[10px] w-[363px] ">
       <Typography
         color="#6C7A93"
         fontWeight={400}

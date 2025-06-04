@@ -23,5 +23,9 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src"]
+  "include": [
+    "src",
+    "src/components/business_mgt/Avg_txn.tsx",
+    "src/components/business_mgt/Graph.tsx"
+  ]
 }
