@@ -71,7 +71,7 @@ const Login = () => {
 
     if (!formReady) {
       setLoading(false);
-      showToast("Please input all fields", "error");
+      showToast("Please input all fields", "warning");
       return;
     }
 

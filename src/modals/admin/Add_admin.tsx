@@ -9,9 +9,13 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import generateRandomPassword from "../../utils/Password";
-import { IoCloseOutline } from "react-icons/io5";
 
+import { IoCloseOutline } from "react-icons/io5";
 import { IoAddOutline } from "react-icons/io5";
+
+import { useNavigate } from "react-router-dom";
+import api from "../../utils/axiosInstance";
+import Toast from "../../utils/Toast";
 
 interface AdminDetails {
   name: string;
@@ -20,7 +24,15 @@ interface AdminDetails {
   password: string;
 }
 
+interface ToastState {
+  open: boolean;
+  message: string;
+  severity: "success" | "info" | "error" | "warning";
+}
+
 const Add_admin = () => {
+  const navigate = useNavigate();
+
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = useState(false);
   const [password, setPassword] = useState<string>("");
@@ -37,6 +49,12 @@ const Add_admin = () => {
   ) => {
     const { name, value } = e.target;
     setAdminDetails((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const isFormDataComplete = () => {
+    return Object.values({ ...adminDetails, password }).every(
+      (value) => value.trim() !== ""
+    );
   };
 
   const handleClickOpen = () => {
@@ -60,8 +78,72 @@ const Add_admin = () => {
     }, 1000);
   };
 
+  const [toast, setToast] = useState<ToastState>({
+    open: false,
+    message: "",
+    severity: "info",
+  });
+
+  const [redirectAfterToast, setRedirectAfterToast] = useState<string | null>(
+    null
+  );
+
+  const showToast = (message: string, severity: ToastState["severity"]) => {
+    setToast({ open: true, message, severity });
+  };
+
+  const handleCloseToast = () => {
+    setToast((prev) => ({ ...prev, open: false }));
+    setLoading(false);
+    handleClose();
+
+    if (redirectAfterToast) {
+      navigate(redirectAfterToast);
+      setRedirectAfterToast(null);
+    }
+  };
+
+  const submit = async () => {
+    setLoading(true);
+    const formReady = isFormDataComplete();
+
+    if (!formReady) {
+      setLoading(false);
+      showToast("Please input all fields", "warning");
+      return;
+    }
+
+    try {
+      const response = await api.post("/api/admin/add", {
+        ...adminDetails,
+        password,
+      });
+
+      console.log(response.data);
+
+      if (response.data) {
+        setLoading(false);
+        showToast(response.data.message, "success");
+        return;
+      }
+    } catch (error: any) {
+      if (error.response.data.error) {
+        setLoading(false);
+        showToast(error.response.data.error, "error");
+        return;
+      }
+    }
+  };
+
   return (
     <div>
+      <Toast
+        open={toast.open}
+        message={toast.message}
+        severity={toast.severity}
+        onClose={handleCloseToast}
+      />
+
       <Button
         sx={{
           borderRadius: "12px",
@@ -201,10 +283,7 @@ const Add_admin = () => {
               {password ? (
                 <Button
                   disabled={loading}
-                  onClick={() => {
-                    setLoading(true);
-                    console.log({ ...adminDetails, password: password });
-                  }}
+                  onClick={submit}
                   fullWidth
                   variant="contained"
                   sx={{
@@ -214,7 +293,7 @@ const Add_admin = () => {
                     fontFamily: "Open Sans, sans-serif",
                   }}
                 >
-                  Sumbit Details
+                  {loading ? "Adding..." : "Add admin"}
                 </Button>
               ) : (
                 <Button
