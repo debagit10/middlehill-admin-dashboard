@@ -82,6 +82,8 @@ const Login = () => {
         setLoading(false);
         showToast(response.data.message, "success");
         setRedirectAfterToast("/dashboard");
+
+        localStorage.setItem("accessToken", response.data.accessToken);
         return;
       }
     } catch (error: any) {
