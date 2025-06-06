@@ -149,7 +149,7 @@ const Admin_Mgt = () => {
                     </Typography>
                   </TableCell>
                   <TableCell align="left">
-                    <Actions />
+                    <Actions adminDetails={row} />
                   </TableCell>
                 </TableRow>
               ))

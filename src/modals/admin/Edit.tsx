@@ -11,22 +11,51 @@ import {
 import React, { useState } from "react";
 import { RiEdit2Fill } from "react-icons/ri";
 import { IoCloseOutline } from "react-icons/io5";
+import Toast from "../../utils/Toast";
+import api from "../../utils/axiosInstance";
 
 interface AdminDetails {
   name: string;
   email: string;
   role: string;
+  id?: string;
 }
 
-const Edit = () => {
+interface ToastState {
+  open: boolean;
+  message: string;
+  severity: "success" | "info" | "error" | "warning";
+}
+
+interface EditProps {
+  adminData: AdminDetails;
+}
+
+const Edit: React.FC<EditProps> = ({ adminData }) => {
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = useState(false);
 
   const [adminDetails, setAdminDetails] = useState<AdminDetails>({
-    name: "",
-    email: "",
-    role: "",
+    name: adminData.name,
+    email: adminData.email,
+    role: adminData.role,
   });
+
+  const [toast, setToast] = useState<ToastState>({
+    open: false,
+    message: "",
+    severity: "info",
+  });
+
+  const showToast = (message: string, severity: ToastState["severity"]) => {
+    setToast({ open: true, message, severity });
+  };
+
+  const handleCloseToast = () => {
+    setToast((prev) => ({ ...prev, open: false }));
+    setLoading(false);
+    setOpen(false);
+  };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -41,7 +70,55 @@ const Edit = () => {
 
   const handleClose = () => {
     setOpen(false);
-    setAdminDetails({ name: "", email: "", role: "" });
+    setAdminDetails({
+      name: adminData.name,
+      email: adminData.email,
+      role: adminData.role,
+    });
+  };
+
+  const isUnchanged = () => {
+    return (
+      adminDetails.name === adminData.name &&
+      adminDetails.email === adminData.email &&
+      adminDetails.role === adminData.role
+    );
+  };
+
+  const getChangedFields = (
+    original: Record<string, any>,
+    updated: Record<string, any>
+  ) => {
+    const changed: Record<string, any> = {};
+    Object.keys(updated).forEach((key) => {
+      if (updated[key] !== original[key]) {
+        changed[key] = updated[key];
+      }
+    });
+    return changed;
+  };
+
+  const changedFields = getChangedFields(adminData, adminDetails);
+
+  const submit = async () => {
+    try {
+      setLoading(true);
+      const response = await api.put(
+        `api/admin/edit/${adminData.id}`,
+        changedFields
+      );
+
+      if (response.data.success) {
+        showToast(response.data.success, "success");
+      }
+    } catch (error: any) {
+      if (error.response.data.error) {
+        console.log(error);
+        setLoading(false);
+        showToast(error.response.data.error, "error");
+        return;
+      }
+    }
   };
 
   return (
@@ -66,6 +143,12 @@ const Edit = () => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
+        <Toast
+          open={toast.open}
+          message={toast.message}
+          severity={toast.severity}
+          onClose={handleCloseToast}
+        />
         <DialogTitle>
           <div className="flex justify-between items-center">
             <Typography
@@ -86,7 +169,10 @@ const Edit = () => {
               <div>
                 <Typography
                   fontWeight={400}
-                  sx={{ color: "#1D2739", fontFamily: "Open Sans, sans-serif" }}
+                  sx={{
+                    color: "#1D2739",
+                    fontFamily: "Open Sans, sans-serif",
+                  }}
                   fontSize={14}
                 >
                   Email
@@ -109,7 +195,10 @@ const Edit = () => {
               <div>
                 <Typography
                   fontWeight={400}
-                  sx={{ color: "#1D2739", fontFamily: "Open Sans, sans-serif" }}
+                  sx={{
+                    color: "#1D2739",
+                    fontFamily: "Open Sans, sans-serif",
+                  }}
                   fontSize={14}
                 >
                   Name
@@ -132,7 +221,10 @@ const Edit = () => {
               <div>
                 <Typography
                   fontWeight={400}
-                  sx={{ color: "#1D2739", fontFamily: "Open Sans, sans-serif" }}
+                  sx={{
+                    color: "#1D2739",
+                    fontFamily: "Open Sans, sans-serif",
+                  }}
                   fontSize={14}
                 >
                   Role
@@ -153,7 +245,8 @@ const Edit = () => {
               </div>
 
               <Button
-                disabled={loading}
+                onClick={submit}
+                disabled={loading || isUnchanged()}
                 fullWidth
                 variant="contained"
                 sx={{
@@ -163,7 +256,7 @@ const Edit = () => {
                   fontFamily: "Open Sans, sans-serif",
                 }}
               >
-                Update details
+                {loading ? "Updating..." : "Update details"}
               </Button>
             </div>
           </Box>

@@ -6,7 +6,20 @@ import Edit from "../../modals/admin/Edit";
 import Remove from "../../modals/admin/Remove";
 import ChangePassword from "../../modals/admin/ChangePassword";
 
-const Actions = () => {
+interface AdminDetails {
+  name: string;
+  email: string;
+  role: string;
+  id: string;
+  suspended: boolean;
+  createdAt: string;
+}
+
+interface ActionsProps {
+  adminDetails: AdminDetails;
+}
+
+const Actions: React.FC<ActionsProps> = ({ adminDetails }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -32,7 +45,7 @@ const Actions = () => {
         sx={{ paddingX: ".5rem" }}
       >
         <MenuItem>
-          <Edit />
+          <Edit adminData={adminDetails} />
         </MenuItem>
         <MenuItem>
           <ChangePassword />

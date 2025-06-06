@@ -33,16 +33,12 @@ api.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        const refreshToken = localStorage.getItem("refreshToken");
         const res = await axios.post(
-          `${import.meta.env.VITE_BASE_URL_DEV}/api/refreshToken`,
-          {
-            token: refreshToken,
-          }
+          `${import.meta.env.VITE_BASE_URL_DEV}/api/refreshToken`
         );
 
         const newAccessToken = res.data.accessToken;
-        localStorage.setItem("access_token", newAccessToken);
+        localStorage.setItem("accessToken", newAccessToken);
 
         // Update the Authorization header and retry the original request
         originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
