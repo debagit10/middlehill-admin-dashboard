@@ -10,6 +10,7 @@ import {
   TableBody,
   Skeleton,
   Box,
+  Chip,
 } from "@mui/material";
 import { FiSearch } from "react-icons/fi";
 import Pages from "../container/Pages";
@@ -84,6 +85,7 @@ const Admin_Mgt = () => {
               <TableCell align="left">Email</TableCell>
               <TableCell align="left">Role</TableCell>
               <TableCell align="left">Last login</TableCell>
+              <TableCell align="left">Status</TableCell>
               <TableCell align="left" />
             </TableRow>
           </TableHead>
@@ -148,8 +150,22 @@ const Admin_Mgt = () => {
                       <DayAndTime date={row.createdAt} />
                     </Typography>
                   </TableCell>
+
                   <TableCell align="left">
-                    <Actions adminDetails={row} />
+                    <Chip
+                      label={row.suspended ? "Suspended" : "Active"}
+                      sx={{
+                        backgroundColor: row.suspended ? "#FEEDE6" : "#E6F4EA",
+                        color: row.suspended ? "#D33E08" : "#27AE60",
+                        fontWeight: 600,
+                        fontSize: "14px",
+                        fontFamily: "Open Sans, sans-serif",
+                      }}
+                    />
+                  </TableCell>
+
+                  <TableCell align="left">
+                    <Actions adminDetails={row} refreshAdmins={getAdmins} />
                   </TableCell>
                 </TableRow>
               ))

@@ -1,5 +1,34 @@
 @import "tailwindcss";
 
+/* Change the color of the progress bar */
+#nprogress .bar {
+  background: #1976d2; /* MUI primary blue */
+}
+
+/* Optionally adjust height */
+#nprogress .bar {
+  height: 3rem;
+}
+
+/* Change the color of the spinner (if enabled) */
+#nprogress .spinner-icon {
+  border-top-color: #1976d2;
+  border-left-color: #1976d2;
+}
+
+/* Optional: Adjust where the bar is positioned */
+#nprogress {
+  pointer-events: none;
+}
+
+#nprogress .bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+}
+
 /* :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;

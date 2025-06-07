@@ -1,6 +1,8 @@
 import React from "react";
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
+import usePageLoader from "./utils/pageLoader";
+import "nprogress/nprogress.css";
 
 const Login = React.lazy(() => import("./pages/auth/Login"));
 const ForgotPassword = React.lazy(() => import("./pages/auth/ForgotPassword"));
@@ -14,6 +16,7 @@ const Settings = React.lazy(() => import("./pages/Settings"));
 const Business = React.lazy(() => import("./pages/details/Business"));
 
 function App() {
+  usePageLoader();
   return (
     <Routes>
       <Route path="/" element={<Login />} />

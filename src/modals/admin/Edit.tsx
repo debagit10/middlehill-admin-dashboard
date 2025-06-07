@@ -29,9 +29,10 @@ interface ToastState {
 
 interface EditProps {
   adminData: AdminDetails;
+  refreshAdmins: () => void;
 }
 
-const Edit: React.FC<EditProps> = ({ adminData }) => {
+const Edit: React.FC<EditProps> = ({ adminData, refreshAdmins }) => {
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = useState(false);
 

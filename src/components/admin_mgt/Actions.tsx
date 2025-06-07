@@ -17,9 +17,10 @@ interface AdminDetails {
 
 interface ActionsProps {
   adminDetails: AdminDetails;
+  refreshAdmins: () => void;
 }
 
-const Actions: React.FC<ActionsProps> = ({ adminDetails }) => {
+const Actions: React.FC<ActionsProps> = ({ adminDetails, refreshAdmins }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -45,13 +46,13 @@ const Actions: React.FC<ActionsProps> = ({ adminDetails }) => {
         sx={{ paddingX: ".5rem" }}
       >
         <MenuItem>
-          <Edit adminData={adminDetails} />
+          <Edit adminData={adminDetails} refreshAdmins={refreshAdmins} />
         </MenuItem>
         <MenuItem>
           <ChangePassword />
         </MenuItem>
         <MenuItem>
-          <Suspension />
+          <Suspension adminData={adminDetails} refreshAdmins={refreshAdmins} />
         </MenuItem>
         <MenuItem>
           <Remove />

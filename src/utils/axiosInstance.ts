@@ -1,5 +1,5 @@
-// axiosInstance.ts or api.ts
 import axios from "axios";
+import NProgress from "nprogress";
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL_DEV,
@@ -9,6 +9,7 @@ const api = axios.create({
 // Request Interceptor
 api.interceptors.request.use(
   (config) => {
+    NProgress.start();
     const accessToken = localStorage.getItem("accessToken");
 
     if (accessToken) {
@@ -25,8 +26,12 @@ api.interceptors.request.use(
 
 // Response Interceptor
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    NProgress.done();
+    return response;
+  },
   async (error) => {
+    NProgress.done();
     const originalRequest = error.config;
 
     if (error.response?.status === 401 && !originalRequest._retry) {
