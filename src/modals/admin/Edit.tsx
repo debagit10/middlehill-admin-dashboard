@@ -111,6 +111,10 @@ const Edit: React.FC<EditProps> = ({ adminData, refreshAdmins }) => {
 
       if (response.data.success) {
         showToast(response.data.success, "success");
+
+        setTimeout(() => {
+          refreshAdmins();
+        }, 2000);
       }
     } catch (error: any) {
       if (error.response.data.error) {
