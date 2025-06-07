@@ -16,9 +16,10 @@ interface BusinessState {
 
 interface ActionsProps {
   businessData: BusinessState;
+  refreshBusiness: () => void;
 }
 
-const Actions: React.FC<ActionsProps> = ({ businessData }) => {
+const Actions: React.FC<ActionsProps> = ({ businessData, refreshBusiness }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -47,7 +48,10 @@ const Actions: React.FC<ActionsProps> = ({ businessData }) => {
           <Delete businessData={businessData} />
         </MenuItem>
         <MenuItem>
-          <Suspension />
+          <Suspension
+            businessData={businessData}
+            refreshBusiness={refreshBusiness}
+          />
         </MenuItem>
         <MenuItem>
           <View />

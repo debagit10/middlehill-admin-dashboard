@@ -13,6 +13,7 @@ import { FaBan } from "react-icons/fa";
 import { IoCloseOutline } from "react-icons/io5";
 import api from "../../utils/axiosInstance";
 import Toast from "../../utils/Toast";
+import { RiDeviceRecoverFill } from "react-icons/ri";
 
 interface AdminDetails {
   suspended: boolean;
@@ -93,7 +94,11 @@ const Suspension: React.FC<SuspendProps> = ({ adminData, refreshAdmins }) => {
           className="flex gap-[4px] text-[#344054]"
         >
           <Icon>
-            <FaBan className="w-[16.76px] h-[16.76px] pt-[2.5px]" />
+            {adminData.suspended ? (
+              <RiDeviceRecoverFill className="w-[16.76px] h-[16.76px] pt-[2.5px]" />
+            ) : (
+              <FaBan className="w-[16.76px] h-[16.76px] pt-[2.5px]" />
+            )}
           </Icon>
 
           <Typography

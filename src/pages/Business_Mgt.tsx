@@ -105,7 +105,7 @@ const Business_Mgt = () => {
           <TableHead>
             <TableRow sx={{ backgroundColor: "#F0F2F5", height: "45px" }}>
               <TableCell>Name</TableCell>
-              <TableCell align="left">Phone number</TableCell>{" "}
+              <TableCell align="left">Phone number</TableCell>
               {/*should be address*/}
               {/* <TableCell align="left">Transactions</TableCell>
               <TableCell align="left">Accuracy</TableCell> */}
@@ -208,7 +208,10 @@ const Business_Mgt = () => {
                     />
                   </TableCell>
                   <TableCell>
-                    <Actions businessData={business} />
+                    <Actions
+                      businessData={business}
+                      refreshBusiness={getBusinesses}
+                    />
                   </TableCell>
                 </TableRow>
               ))
