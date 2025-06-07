@@ -5,7 +5,20 @@ import View from "../../modals/business/View";
 import { IconButton, Menu, MenuItem } from "@mui/material";
 import { CiMenuKebab } from "react-icons/ci";
 
-const Actions = () => {
+interface BusinessState {
+  first_name: string;
+  last_name: string;
+  phone_number: string;
+  id: string;
+  suspended: boolean;
+  createdAt: string;
+}
+
+interface ActionsProps {
+  businessData: BusinessState;
+}
+
+const Actions: React.FC<ActionsProps> = ({ businessData }) => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
@@ -31,7 +44,7 @@ const Actions = () => {
         sx={{ width: "170px" }}
       >
         <MenuItem>
-          <Delete />
+          <Delete businessData={businessData} />
         </MenuItem>
         <MenuItem>
           <Suspension />

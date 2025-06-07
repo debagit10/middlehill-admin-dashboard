@@ -10,32 +10,52 @@ import {
   Chip,
   Typography,
   InputAdornment,
+  Box,
+  Skeleton,
 } from "@mui/material";
 import Pages from "../container/Pages";
 import { FiSearch } from "react-icons/fi";
 import { FiFilter } from "react-icons/fi";
 import Actions from "../components/business_mgt/Actions";
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import api from "../utils/axiosInstance";
 
-const rows = [
-  {
-    name: "John Doe",
-    address: "123 Main St",
-    transactions: "100",
-    accuracy: "95%",
-    status: "Active",
-  },
-  {
-    name: "John Doe",
-    address: "123 Main St",
-    transactions: "100",
-    accuracy: "95%",
-    status: "Suspended",
-  },
-];
+interface BusinessState {
+  first_name: string;
+  last_name: string;
+  phone_number: string;
+  id: string;
+  suspended: boolean;
+  createdAt: string;
+}
 
 const Business_Mgt = () => {
   const navigate = useNavigate();
+
+  const [businesses, setBusinesses] = useState<BusinessState[]>();
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const getBusinesses = async () => {
+    setLoading(true);
+    try {
+      const response = await api.get("/api/business/getList");
+
+      if (response.data) {
+        setBusinesses(response.data.businesses);
+        return;
+      }
+    } catch (error: any) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getBusinesses();
+  }, []);
+
   return (
     <Pages page="Business Management">
       <div className="flex justify-between py-[1rem]">
@@ -85,100 +105,124 @@ const Business_Mgt = () => {
           <TableHead>
             <TableRow sx={{ backgroundColor: "#F0F2F5", height: "45px" }}>
               <TableCell>Name</TableCell>
-              <TableCell align="left">Address</TableCell>
-              <TableCell align="left">Transactions</TableCell>
-              <TableCell align="left">Accuracy</TableCell>
+              <TableCell align="left">Phone number</TableCell>{" "}
+              {/*should be address*/}
+              {/* <TableCell align="left">Transactions</TableCell>
+              <TableCell align="left">Accuracy</TableCell> */}
               <TableCell align="left">Status</TableCell>
               <TableCell align="left" />
             </TableRow>
           </TableHead>
 
           <TableBody>
-            {rows.map((row) => (
-              <TableRow
-                key={row.name}
-                sx={{
-                  height: "50px",
-                  "&:last-child td, &:last-child th": { border: 0 },
-                  "&:hover": {
-                    cursor: "pointer",
-                  },
-                }}
-              >
-                <TableCell
-                  component="th"
-                  scope="row"
-                  onClick={() => navigate("/business/123")}
+            {loading ? (
+              Array.from({ length: 5 }).map((_, index) => (
+                <TableRow key={index}>
+                  {Array.from({ length: 5 }).map((__, idx) => (
+                    <TableCell key={idx}>
+                      <Skeleton variant="text" width="100%" height={30} />
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : businesses && businesses.length > 0 ? (
+              businesses.map((business) => (
+                <TableRow
+                  key={business.id}
+                  sx={{
+                    height: "50px",
+                    "&:last-child td, &:last-child th": { border: 0 },
+                    "&:hover": {
+                      cursor: "pointer",
+                    },
+                  }}
                 >
-                  <Typography
-                    color="#101928"
-                    sx={{ fontFamily: "Open Sans, sans-serif" }}
-                    fontWeight={500}
-                    fontSize={14}
+                  <TableCell
+                    component="th"
+                    scope="row"
+                    onClick={() => navigate(`/business/${business.id}`)}
                   >
-                    {row.name}
-                  </Typography>
-                </TableCell>
-                <TableCell
-                  align="left"
-                  onClick={() => navigate("/business/123")}
-                >
-                  <Typography
-                    color="#344054"
-                    sx={{ fontFamily: "Open Sans, sans-serif" }}
-                    fontWeight={400}
-                    fontSize={14}
+                    <Typography
+                      color="#101928"
+                      sx={{ fontFamily: "Open Sans, sans-serif" }}
+                      fontWeight={500}
+                      fontSize={14}
+                    >
+                      {`${business.first_name} ${business.last_name}`}
+                    </Typography>
+                  </TableCell>
+                  <TableCell
+                    align="left"
+                    onClick={() => navigate(`/business/${business.id}`)}
                   >
-                    {row.address}
-                  </Typography>
-                </TableCell>
-                <TableCell
-                  align="left"
-                  onClick={() => navigate("/business/123")}
-                >
-                  <Typography
-                    color="#344054"
-                    sx={{ fontFamily: "Open Sans, sans-serif" }}
-                    fontWeight={400}
-                    fontSize={14}
+                    <Typography
+                      color="#344054"
+                      sx={{ fontFamily: "Open Sans, sans-serif" }}
+                      fontWeight={400}
+                      fontSize={14}
+                    >
+                      {business.phone_number}
+                    </Typography>
+                  </TableCell>
+                  {/* <TableCell
+                    align="left"
+                    onClick={() => navigate(`/business/${business.id}`)}
                   >
-                    {row.transactions}
-                  </Typography>
-                </TableCell>
-                <TableCell
-                  align="left"
-                  onClick={() => navigate("/business/123")}
-                >
-                  <Typography
-                    color="#344054"
-                    sx={{ fontFamily: "Open Sans, sans-serif" }}
-                    fontWeight={400}
-                    fontSize={14}
+                    <Typography
+                      color="#344054"
+                      sx={{ fontFamily: "Open Sans, sans-serif" }}
+                      fontWeight={400}
+                      fontSize={14}
+                    >
+                      {business.transactions}
+                    </Typography>
+                  </TableCell>
+                  <TableCell
+                    align="left"
+                    onClick={() => navigate(`/business/${business.id}`)}
                   >
-                    {row.accuracy}
-                  </Typography>
-                </TableCell>
-                <TableCell
-                  align="left"
-                  onClick={() => navigate("/business/123")}
-                >
-                  <Chip
-                    label={row.status}
-                    sx={{
-                      backgroundColor:
-                        row.status === "Active" ? "#E6F4EA" : "#FEEDE6",
-                      color: row.status === "Active" ? "#27AE60" : "#D33E08",
-                      fontWeight: 600,
-                      fontSize: "14px",
-                      fontFamily: "Open Sans, sans-serif",
-                    }}
-                  />
-                </TableCell>
-                <TableCell>
-                  <Actions />
+                    <Typography
+                      color="#344054"
+                      sx={{ fontFamily: "Open Sans, sans-serif" }}
+                      fontWeight={400}
+                      fontSize={14}
+                    >
+                      {business.accuracy}
+                    </Typography>
+                  </TableCell> */}
+                  <TableCell
+                    align="left"
+                    onClick={() => navigate(`/business/${business.id}`)}
+                  >
+                    <Chip
+                      label={business.suspended ? "Suspended" : "Active"}
+                      sx={{
+                        backgroundColor: business.suspended
+                          ? "#FEEDE6"
+                          : "#E6F4EA",
+                        color: business.suspended ? "#D33E08" : "#27AE60",
+                        fontWeight: 600,
+                        fontSize: "14px",
+                        fontFamily: "Open Sans, sans-serif",
+                      }}
+                    />
+                  </TableCell>
+                  <TableCell>
+                    <Actions businessData={business} />
+                  </TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={5}>
+                  <Box textAlign="center" py={4}>
+                    <Typography variant="body1" color="textSecondary">
+                      No business found.
+                    </Typography>
+                  </Box>
                 </TableCell>
               </TableRow>
-            ))}
+            )}
           </TableBody>
         </Table>
       </TableContainer>

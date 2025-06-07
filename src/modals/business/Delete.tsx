@@ -4,16 +4,34 @@ import {
   DialogTitle,
   DialogContent,
   DialogContentText,
-  DialogActions,
   Typography,
   Icon,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { IoCloseOutline, IoPersonRemove } from "react-icons/io5";
+import api from "../../utils/axiosInstance";
+import Toast from "../../utils/Toast";
 
-import { IoPersonRemove } from "react-icons/io5";
+interface BusinessDetails {
+  id: string;
+  first_name: string;
+}
 
-const Delete = () => {
-  const [open, setOpen] = React.useState(false);
+interface DeleteProps {
+  businessData: BusinessDetails;
+}
+
+interface ToastState {
+  open: boolean;
+  message: string;
+  severity: "success" | "info" | "error" | "warning";
+}
+
+const Delete: React.FC<DeleteProps> = ({ businessData }) => {
+  const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -23,7 +41,46 @@ const Delete = () => {
     setOpen(false);
   };
 
-  const itemName = "John Doe";
+  const [toast, setToast] = useState<ToastState>({
+    open: false,
+    message: "",
+    severity: "info",
+  });
+
+  const showToast = (message: string, severity: ToastState["severity"]) => {
+    setToast({ open: true, message, severity });
+  };
+
+  const handleCloseToast = () => {
+    setToast((prev) => ({ ...prev, open: false }));
+    setLoading(false);
+    setOpen(false);
+  };
+
+  const submit = async () => {
+    setLoading(true);
+
+    try {
+      const response = await api.delete(
+        `api/business/delete/${businessData.id}`
+      );
+
+      if (response.data) {
+        showToast(response.data.success, "success");
+
+        setTimeout(() => {
+          navigate("/business-mgt");
+        }, 2000);
+      }
+    } catch (error: any) {
+      if (error.response.data.error) {
+        console.log(error);
+        setLoading(false);
+        showToast(error.response.data.error, "error");
+        return;
+      }
+    }
+  };
 
   return (
     <div>
@@ -54,28 +111,48 @@ const Delete = () => {
           onClose={onClose}
           aria-describedby="alert-dialog-delete-description"
         >
-          <DialogTitle>Delete Confirmation</DialogTitle>
-          <DialogContent>
+          <Toast
+            open={toast.open}
+            message={toast.message}
+            severity={toast.severity}
+            onClose={handleCloseToast}
+          />
+
+          <DialogTitle>
+            <div className="flex justify-between items-center">
+              <Typography
+                fontWeight={600}
+                sx={{ color: "#081421", fontFamily: "Open Sans, sans-serif" }}
+                fontSize={24}
+              >
+                Delete confirmation
+              </Typography>
+              <Button sx={{ color: "black" }} onClick={onClose}>
+                <IoCloseOutline className="w-[1.5rem] h-[1.5rem] " />
+              </Button>
+            </div>
+          </DialogTitle>
+
+          <DialogContent sx={{ width: "400px" }}>
             <DialogContentText id="alert-dialog-delete-description">
-              Are you sure you want to delete <strong>{itemName}</strong>? This
-              action cannot be undone.
+              Are you sure you want to delete{" "}
+              <strong>{`${businessData.first_name}`}</strong>? This action
+              cannot be undone.
             </DialogContentText>
           </DialogContent>
-          <DialogActions>
+
+          <div className="p-[20px]">
             <Button
-              onClick={onClose}
-              sx={{ color: "#1358A3", textTransform: "capitalize" }}
-            >
-              Cancel
-            </Button>
-            <Button
+              disabled={loading}
+              fullWidth
               color="error"
               variant="outlined"
               sx={{ textTransform: "capitalize" }}
+              onClick={submit}
             >
-              Delete
+              {loading ? "Deleting..." : "Delete"}
             </Button>
-          </DialogActions>
+          </div>
         </Dialog>
       </React.Fragment>
     </div>
