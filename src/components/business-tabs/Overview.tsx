@@ -158,7 +158,7 @@ const Overview: React.FC<OverviewProps> = ({ overview }) => {
         </div>
 
         <div>
-          <Graph />
+          <Graph transactions={overview.transactions} />
         </div>
       </div>
     </div>
