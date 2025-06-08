@@ -13,6 +13,7 @@ interface Transaction {
   quantity: string;
   amount: number;
   deleted: boolean;
+  createdAt: string;
 }
 
 interface UserDetails {

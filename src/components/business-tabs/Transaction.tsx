@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Table,
   TableBody,
   TableCell,
@@ -10,27 +9,23 @@ import {
 } from "@mui/material";
 import DayAndTime from "../../utils/DayAndTime";
 
-const rows = [
-  {
-    item_name: "Rice",
-    quantity: "2 Dericas",
-    amount: "100",
-    id: "9dcb7c21-8183-49c0-96fe-1179fc6346bb",
-    date: "2025-04-25T23:27:55.864Z",
-  },
-  {
-    item_name: "Rice",
-    quantity: "2 Dericas",
-    amount: "100",
-    id: "9dcb7c21-8183-49c0-96fe-1179fc6346bb",
-    date: "2025-04-25T23:27:55.864Z",
-  },
-];
+interface Transactions {
+  id: string;
+  item_name: string;
+  quantity: string;
+  amount: number;
+  deleted: boolean;
+  createdAt: string;
+}
 
-const Transaction = () => {
+interface TransactionProps {
+  transactions: Transactions[];
+}
+
+const Transaction: React.FC<TransactionProps> = ({ transactions }) => {
   return (
     <div>
-      <div className="flex gap-[12px] items-center mb-[1rem]">
+      {/* <div className="flex gap-[12px] items-center mb-[1rem]">
         <Avatar>
           <Typography
             fontSize={18}
@@ -49,7 +44,7 @@ const Transaction = () => {
         >
           John Doe
         </Typography>
-      </div>
+      </div> */}
       <TableContainer
         sx={{ borderRadius: "8px", border: "0.5px solid #D0D5DD" }}
       >
@@ -65,9 +60,9 @@ const Transaction = () => {
           </TableHead>
 
           <TableBody>
-            {rows.map((row) => (
+            {transactions.map((transaction) => (
               <TableRow
-                key={row.item_name}
+                key={transaction.item_name}
                 sx={{
                   height: "50px",
                   "&:last-child td, &:last-child th": { border: 0 },
@@ -80,7 +75,7 @@ const Transaction = () => {
                     fontWeight={500}
                     fontSize={14}
                   >
-                    {row.id}
+                    {transaction.id}
                   </Typography>
                 </TableCell>
                 <TableCell>
@@ -90,7 +85,7 @@ const Transaction = () => {
                     fontWeight={400}
                     fontSize={14}
                   >
-                    {row.item_name}
+                    {transaction.item_name}
                   </Typography>
                 </TableCell>
                 <TableCell>
@@ -100,7 +95,7 @@ const Transaction = () => {
                     fontWeight={400}
                     fontSize={14}
                   >
-                    {row.quantity}
+                    {transaction.quantity}
                   </Typography>
                 </TableCell>
                 <TableCell>
@@ -110,7 +105,7 @@ const Transaction = () => {
                     fontWeight={400}
                     fontSize={14}
                   >
-                    {row.amount}
+                    {transaction.amount}
                   </Typography>
                 </TableCell>
                 <TableCell>
@@ -120,7 +115,7 @@ const Transaction = () => {
                     fontWeight={400}
                     fontSize={14}
                   >
-                    <DayAndTime date={row.date} />
+                    <DayAndTime date={transaction.createdAt} />
                   </Typography>
                 </TableCell>
               </TableRow>

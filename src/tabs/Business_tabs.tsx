@@ -10,6 +10,7 @@ interface Transaction {
   quantity: string;
   amount: number;
   deleted: boolean;
+  createdAt: string;
 }
 
 interface UserDetails {
@@ -109,7 +110,7 @@ const Business_tabs: React.FC<BusinessDetails> = ({ details }) => {
           <Overview overview={details} />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
-          <Transaction />
+          <Transaction transactions={details.transactions} />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
           <Statement />
