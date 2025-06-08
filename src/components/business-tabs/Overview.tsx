@@ -54,6 +54,7 @@ const Overview: React.FC<OverviewProps> = ({ overview }) => {
         {label}
       </Typography>
       <TextField
+        disabled={true}
         value={value}
         type={type}
         size="small"
