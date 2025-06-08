@@ -2,6 +2,7 @@ import { Chip, TextField, Typography } from "@mui/material";
 import Total_transactions from "../business_mgt/Total_transactions";
 import Avg_txn from "../business_mgt/Avg_txn";
 import Graph from "../business_mgt/Graph";
+import type React from "react";
 
 interface LabeledInputProps {
   label: string;
@@ -10,49 +11,74 @@ interface LabeledInputProps {
   value: string;
 }
 
-const LabeledInput = ({ label, value, type = "text" }: LabeledInputProps) => (
-  <div className="flex flex-col gap-1 w-full">
-    <Typography
-      fontWeight={600}
-      sx={{ color: "#525252", fontFamily: "Open Sans, sans-serif" }}
-      fontSize={14}
-    >
-      {label}
-    </Typography>
-    <TextField
-      value={value}
-      type={type}
-      size="small"
-      sx={{
-        color: "#101928",
-        fontFamily: "Open Sans, sans-serif",
-        fontSize: "16px",
-        fontWeight: 600,
-        "& .MuiOutlinedInput-root": {
-          borderRadius: "8px",
-        },
-      }}
-    />
-  </div>
-);
+interface UserDetails {
+  id: string;
+  first_name: string;
+  last_name: string;
+  phone_number: string;
+  suspended: boolean;
+  user_profile: UserProfile | null;
+}
 
-const inputGroups = [
-  [
-    { label: "Email Address", value: "john.doe@example.com" },
-    { label: "Phone Number", value: "+1234567890" },
-  ],
-  [
-    { label: "Username", value: "johndoe" },
-    { label: "Country", value: "USA" },
-  ],
-];
+interface UserProfile {
+  email: string;
+  bank_acc_no: string;
+  bank_name: string;
+  business_name: string;
+  pic: string;
+  address: string;
+}
 
-const singleInput = {
-  label: "Bank Info",
-  value: "2170808477 United Bank of Africa (UBA)",
-};
+interface OverviewProps {
+  overview: UserDetails;
+}
 
-const Overview = () => {
+const Overview: React.FC<OverviewProps> = ({ overview }) => {
+  const LabeledInput = ({ label, value, type = "text" }: LabeledInputProps) => (
+    <div className="flex flex-col gap-1 w-full">
+      <Typography
+        fontWeight={600}
+        sx={{ color: "#525252", fontFamily: "Open Sans, sans-serif" }}
+        fontSize={14}
+      >
+        {label}
+      </Typography>
+      <TextField
+        value={value}
+        type={type}
+        size="small"
+        sx={{
+          color: "#101928",
+          fontFamily: "Open Sans, sans-serif",
+          fontSize: "16px",
+          fontWeight: 600,
+          "& .MuiOutlinedInput-root": {
+            borderRadius: "8px",
+          },
+        }}
+      />
+    </div>
+  );
+
+  const inputGroups = [
+    [
+      { label: "Email Address", value: "john.doe@example.com" },
+      { label: "Phone Number", value: `${overview.phone_number}` },
+    ],
+    [
+      {
+        label: "Username",
+        value: `${overview.first_name} ${overview.last_name}`,
+      },
+      { label: "Country", value: "Nigeria" },
+    ],
+  ];
+
+  const singleInput = {
+    label: "Bank Info",
+    value: "2170808477 United Bank of Africa (UBA)",
+  };
+
   return (
     <div className="flex gap-[2rem] ">
       <div className="border 1px border-[#E5E5E5] w-[513px] rounded-[12px] p-[24px] ">
@@ -94,10 +120,10 @@ const Overview = () => {
             Status
           </Typography>
           <Chip
-            label="Active Today"
+            label={overview.suspended ? "Suspended" : "Active"}
             sx={{
-              backgroundColor: "#E6F4EA",
-              color: "#27AE60",
+              backgroundColor: overview.suspended ? "#FEEDE6" : "#E6F4EA",
+              color: overview.suspended ? "#D33E08" : "#27AE60",
               fontWeight: 600,
               fontSize: "14px",
               fontFamily: "Open Sans, sans-serif",

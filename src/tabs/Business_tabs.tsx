@@ -4,7 +4,38 @@ import Overview from "../components/business-tabs/Overview";
 import Transaction from "../components/business-tabs/Transaction";
 import Statement from "../components/business-tabs/Statement";
 
-const Business_tabs = () => {
+interface Transaction {
+  id: string;
+  item_name: string;
+  quantity: string;
+  amount: number;
+  deleted: boolean;
+}
+
+interface UserDetails {
+  id: string;
+  first_name: string;
+  last_name: string;
+  phone_number: string;
+  suspended: boolean;
+  user_profile: UserProfile | null;
+  transactions: Transaction[];
+}
+
+interface UserProfile {
+  email: string;
+  bank_acc_no: string;
+  bank_name: string;
+  business_name: string;
+  pic: string;
+  address: string;
+}
+
+interface BusinessDetails {
+  details: UserDetails;
+}
+
+const Business_tabs: React.FC<BusinessDetails> = ({ details }) => {
   interface TabPanelProps {
     children?: React.ReactNode;
     index: number;
@@ -75,7 +106,7 @@ const Business_tabs = () => {
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
-          <Overview />
+          <Overview overview={details} />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
           <Transaction />
