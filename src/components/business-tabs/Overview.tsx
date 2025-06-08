@@ -62,7 +62,12 @@ const Overview: React.FC<OverviewProps> = ({ overview }) => {
 
   const inputGroups = [
     [
-      { label: "Email Address", value: "john.doe@example.com" },
+      {
+        label: "Email Address",
+        value: overview.user_profile?.email
+          ? `${overview.user_profile?.email}`
+          : "null",
+      },
       { label: "Phone Number", value: `${overview.phone_number}` },
     ],
     [
@@ -76,7 +81,10 @@ const Overview: React.FC<OverviewProps> = ({ overview }) => {
 
   const singleInput = {
     label: "Bank Info",
-    value: "2170808477 United Bank of Africa (UBA)",
+    value:
+      overview.user_profile?.bank_name && overview.user_profile?.bank_acc_no
+        ? `${overview.user_profile.bank_name} ${overview.user_profile.bank_acc_no}`
+        : "null",
   };
 
   return (
