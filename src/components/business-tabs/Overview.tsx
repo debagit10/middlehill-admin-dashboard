@@ -11,6 +11,15 @@ interface LabeledInputProps {
   value: string;
 }
 
+interface Transaction {
+  id: string;
+  item_name: string;
+  quantity: string;
+  amount: number;
+  deleted: boolean;
+  createdAt: string;
+}
+
 interface UserDetails {
   id: string;
   first_name: string;
@@ -18,6 +27,7 @@ interface UserDetails {
   phone_number: string;
   suspended: boolean;
   user_profile: UserProfile | null;
+  transactions: Transaction[];
 }
 
 interface UserProfile {
@@ -142,8 +152,8 @@ const Overview: React.FC<OverviewProps> = ({ overview }) => {
 
       <div className="flex flex-col gap-[1rem] ">
         <div className="flex gap-[1rem]">
-          <Total_transactions />
-          <Avg_txn />
+          <Total_transactions transactions={overview.transactions} />
+          <Avg_txn transactions={overview.transactions} />
         </div>
 
         <div>
