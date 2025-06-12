@@ -106,12 +106,16 @@ const Total_Business = () => {
               fontWeight={600}
               sx={{
                 fontFamily: "Open Sans, sans-serif",
-                backgroundColor: "#40C4AA33",
+                backgroundColor:
+                  parseFloat(growthRounded) >= 0 ? "#40C4AA33" : "#FFCDD233", // light green or light red
                 paddingX: "4px",
                 paddingY: "8px",
                 borderRadius: "6px",
-                border: "1px solid #40C4AA33",
-                color: "#287F6E",
+                border:
+                  parseFloat(growthRounded) >= 0
+                    ? "1px solid #40C4AA33"
+                    : "1px solid #FFCDD233",
+                color: parseFloat(growthRounded) >= 0 ? "#287F6E" : "#D32F2F", // green or red
               }}
             >
               {parseFloat(growthRounded) >= 0
