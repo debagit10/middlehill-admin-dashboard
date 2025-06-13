@@ -5,10 +5,10 @@ import { HiPhoto } from "react-icons/hi2";
 
 import { useNavigate } from "react-router-dom";
 
-const Settings = () => {
+const Profile = () => {
   const navigate = useNavigate();
   return (
-    <Pages page="Settings">
+    <Pages page="Profile">
       <div className="flex flex-col gap-[3rem] p-[1rem]">
         <div>
           <Button
@@ -194,4 +194,4 @@ const Settings = () => {
   );
 };
 
-export default Settings;
+export default Profile;

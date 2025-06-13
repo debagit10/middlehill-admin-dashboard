@@ -4,11 +4,11 @@ import { LuLayoutDashboard } from "react-icons/lu";
 import { BsCash } from "react-icons/bs";
 import { TbUsers } from "react-icons/tb";
 
-import { IoSettingsOutline } from "react-icons/io5";
-import { CiLogout } from "react-icons/ci";
+import { FaRegUserCircle } from "react-icons/fa";
 
 import { useNavigate, useLocation } from "react-router-dom";
 import React, { useEffect, useState } from "react";
+import Logout from "../modals/Logout";
 
 const sideItems = [
   {
@@ -94,33 +94,26 @@ const Sidebar = () => {
       <div className="flex flex-col gap-[12px] mb-[24px] px-[16px]">
         <div
           className={`flex items-center gap-[12px] py-[12px] px-[16px] rounded-[8px] cursor-pointer transition-all duration-300 ease-in-out ${
-            activeRoute === "/settings"
+            activeRoute === "/profile"
               ? "bg-[#FFFFFF33] text-[#FFFFFF] font-semibold"
               : ""
           }`}
           onClick={() => {
-            navigate("/settings");
-            setActiveRoute("/settings");
+            navigate("/profile");
+            setActiveRoute("/profile");
           }}
         >
-          <IoSettingsOutline size={18} />
+          <FaRegUserCircle size={18} />
           <Typography
             fontWeight={400}
             sx={{ fontFamily: "Open Sans, sans-serif" }}
             fontSize="14px"
           >
-            Settings
+            Profile
           </Typography>
         </div>
-        <div className="flex items-center gap-[12px] py-[12px] px-[16px] rounded-[8px] cursor-pointer">
-          <CiLogout size={18} />
-          <Typography
-            fontWeight={400}
-            sx={{ fontFamily: "Open Sans, sans-serif" }}
-            fontSize="14px"
-          >
-            Logout
-          </Typography>
+        <div className="flex items-center gap-[12px] px-[16px] rounded-[8px] cursor-pointer">
+          <Logout color="#FFFFFF" />
         </div>
       </div>
     </div>

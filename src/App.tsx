@@ -11,7 +11,7 @@ const NewPassword = React.lazy(() => import("./pages/auth/NewPassword"));
 const Dashboard = React.lazy(() => import("./pages/Dashboard"));
 const Business_Mgt = React.lazy(() => import("./pages/Business_Mgt"));
 const Admin_Mgt = React.lazy(() => import("./pages/Admin_Mgt"));
-const Settings = React.lazy(() => import("./pages/Settings"));
+const Profile = React.lazy(() => import("./pages/Profile"));
 
 const Business = React.lazy(() => import("./pages/details/Business"));
 
@@ -26,7 +26,7 @@ function App() {
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/business-mgt" element={<Business_Mgt />} />
       <Route path="/admin-mgt" element={<Admin_Mgt />} />
-      <Route path="/settings" element={<Settings />} />
+      <Route path="/profile" element={<Profile />} />
 
       <Route path="/business/:id" element={<Business />} />
     </Routes>
