@@ -3,7 +3,7 @@ import Sidebar from "../components/Sidebar";
 import Typography from "@mui/material/Typography";
 import { Divider } from "@mui/material";
 import Profile from "../modals/Profile";
-import Notification from "../components/navbar/Notification";
+// import Notification from "../components/navbar/Notification";
 
 interface PagesProps {
   children?: React.ReactNode;
@@ -29,7 +29,6 @@ const Pages: React.FC<PagesProps> = ({ children, page }) => {
           </Typography>
 
           <div className="flex gap-[16px]">
-            <Notification />
             <Divider orientation="vertical" />
             <Profile />
           </div>

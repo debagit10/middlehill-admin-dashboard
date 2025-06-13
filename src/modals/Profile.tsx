@@ -1,4 +1,4 @@
-import { Avatar, Menu, MenuItem, Typography } from "@mui/material";
+import { Avatar, Badge, Menu, MenuItem, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaRegUserCircle } from "react-icons/fa";
@@ -38,9 +38,26 @@ const Profile = () => {
   return (
     <div>
       <div onClick={handleClick} className="cursor-pointer">
-        <Avatar sx={{ width: 24, height: 24, padding: "1rem" }}>
-          {adminDetails.name ? adminDetails.name.charAt(0).toUpperCase() : "A"}
-        </Avatar>
+        <Badge
+          overlap="circular"
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+          variant="dot"
+          sx={{
+            "& .MuiBadge-dot": {
+              backgroundColor: "#4CAF50",
+              border: "2px solid white",
+              height: 12,
+              width: 12,
+              borderRadius: "50%",
+            },
+          }}
+        >
+          <Avatar sx={{ width: 24, height: 24, padding: "1rem" }}>
+            {adminDetails.name
+              ? adminDetails.name.charAt(0).toUpperCase()
+              : "A"}
+          </Avatar>
+        </Badge>
       </div>
 
       <Menu

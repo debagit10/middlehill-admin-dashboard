@@ -1,7 +1,7 @@
 import { Avatar, Button, TextField, Typography } from "@mui/material";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import Pages from "../container/Pages";
-import { HiPhoto } from "react-icons/hi2";
+// import { HiPhoto } from "react-icons/hi2";
 
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
