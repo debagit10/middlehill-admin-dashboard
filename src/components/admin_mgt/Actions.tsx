@@ -4,7 +4,6 @@ import { IconButton, Menu, MenuItem } from "@mui/material";
 import { CiMenuKebab } from "react-icons/ci";
 import Edit from "../../modals/admin/Edit";
 import Remove from "../../modals/admin/Remove";
-import ChangePassword from "../../modals/admin/ChangePassword";
 
 interface AdminDetails {
   name: string;
@@ -48,12 +47,11 @@ const Actions: React.FC<ActionsProps> = ({ adminDetails, refreshAdmins }) => {
         <MenuItem>
           <Edit adminData={adminDetails} refreshAdmins={refreshAdmins} />
         </MenuItem>
-        <MenuItem>
-          <ChangePassword />
-        </MenuItem>
+
         <MenuItem>
           <Suspension adminData={adminDetails} refreshAdmins={refreshAdmins} />
         </MenuItem>
+
         <MenuItem>
           <Remove adminData={adminDetails} refreshAdmins={refreshAdmins} />
         </MenuItem>
