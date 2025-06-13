@@ -7,13 +7,31 @@ import {
   Icon,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 
 import { HiUserRemove } from "react-icons/hi";
 import { IoCloseOutline } from "react-icons/io5";
+import api from "../../utils/axiosInstance";
+import Toast from "../../utils/Toast";
 
-const Remove = () => {
+interface AdminDetails {
+  id?: string;
+}
+
+interface ToastState {
+  open: boolean;
+  message: string;
+  severity: "success" | "info" | "error" | "warning";
+}
+
+interface DeleteProps {
+  adminData: AdminDetails;
+  refreshAdmins: () => void;
+}
+
+const Remove: React.FC<DeleteProps> = ({ adminData, refreshAdmins }) => {
   const [open, setOpen] = React.useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -21,6 +39,45 @@ const Remove = () => {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const [toast, setToast] = useState<ToastState>({
+    open: false,
+    message: "",
+    severity: "info",
+  });
+
+  const showToast = (message: string, severity: ToastState["severity"]) => {
+    setToast({ open: true, message, severity });
+  };
+
+  const handleCloseToast = () => {
+    setToast((prev) => ({ ...prev, open: false }));
+    setLoading(false);
+    setOpen(false);
+  };
+
+  const submit = async () => {
+    setLoading(true);
+
+    try {
+      const response = await api.delete(`/api/admin/delete/${adminData.id}`);
+
+      if (response.data) {
+        showToast(response.data.success, "success");
+
+        setTimeout(() => {
+          refreshAdmins();
+        }, 2000);
+      }
+    } catch (error: any) {
+      if (error.response.data.error) {
+        console.log(error);
+        setLoading(false);
+        showToast(error.response.data.error, "error");
+        return;
+      }
+    }
   };
 
   return (
@@ -39,7 +96,7 @@ const Remove = () => {
             fontSize={14}
             fontFamily="Open Sans, sans-serif"
           >
-            Deactivate
+            Delete admin
           </Typography>
         </div>
 
@@ -49,6 +106,12 @@ const Remove = () => {
           onClose={handleClose}
           aria-describedby="suspend-dialog-description"
         >
+          <Toast
+            open={toast.open}
+            message={toast.message}
+            severity={toast.severity}
+            onClose={handleCloseToast}
+          />
           <DialogTitle>
             <div className="flex justify-between items-center">
               <Typography
@@ -72,6 +135,7 @@ const Remove = () => {
 
           <div className="p-[20px]">
             <Button
+              onClick={submit}
               fullWidth
               variant="outlined"
               sx={{
@@ -83,7 +147,7 @@ const Remove = () => {
                 color: "#D42620",
               }}
             >
-              Deactivate account
+              {loading ? "Deleting..." : "Delete Admin"}
             </Button>
           </div>
         </Dialog>

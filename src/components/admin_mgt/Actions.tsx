@@ -55,7 +55,7 @@ const Actions: React.FC<ActionsProps> = ({ adminDetails, refreshAdmins }) => {
           <Suspension adminData={adminDetails} refreshAdmins={refreshAdmins} />
         </MenuItem>
         <MenuItem>
-          <Remove />
+          <Remove adminData={adminDetails} refreshAdmins={refreshAdmins} />
         </MenuItem>
       </Menu>
     </>
