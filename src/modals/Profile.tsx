@@ -1,12 +1,15 @@
 import { Avatar, Menu, MenuItem, Typography } from "@mui/material";
-import logo from "../logo/logo.png";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaRegUserCircle } from "react-icons/fa";
 import Logout from "./Logout";
 
 const Profile = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [adminDetails, setAdminDetails] = useState<{ name: string }>({
+    name: "",
+  });
+
   const open = Boolean(anchorEl);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -19,10 +22,25 @@ const Profile = () => {
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    // Fetch admin data from localStorage or API if needed
+    const storedAdminData = localStorage.getItem("adminData");
+    if (storedAdminData) {
+      try {
+        const parsedData = JSON.parse(storedAdminData);
+        setAdminDetails(parsedData);
+      } catch (error) {
+        console.error("Failed to parse admin data:", error);
+      }
+    }
+  }, []);
+
   return (
     <div>
       <div onClick={handleClick} className="cursor-pointer">
-        <Avatar alt="Remy Sharp" src={logo} sx={{ width: 24, height: 24 }} />
+        <Avatar sx={{ width: 24, height: 24, padding: "1rem" }}>
+          {adminDetails.name ? adminDetails.name.charAt(0).toUpperCase() : "A"}
+        </Avatar>
       </div>
 
       <Menu

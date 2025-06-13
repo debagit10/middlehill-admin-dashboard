@@ -84,6 +84,7 @@ const Login = () => {
         setRedirectAfterToast("/dashboard");
 
         localStorage.setItem("accessToken", response.data.accessToken);
+        localStorage.setItem("adminData", JSON.stringify(response.data.admin));
         return;
       }
     } catch (error: any) {
