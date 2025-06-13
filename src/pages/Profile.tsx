@@ -9,6 +9,7 @@ import api from "../utils/axiosInstance";
 import Toast from "../utils/Toast";
 
 interface AdminData {
+  id: string;
   name: string;
   email: string;
   role: string;
@@ -25,11 +26,10 @@ interface ToastState {
 const Profile = () => {
   const navigate = useNavigate();
 
-  let storedAdminData: any = null;
-
   const [loading, setLoading] = useState(false);
 
   const [adminDetails, setAdminDetails] = useState<AdminData>({
+    id: "",
     name: "",
     email: "",
     role: "",
@@ -38,6 +38,7 @@ const Profile = () => {
   });
 
   const [originalAdminData, setOriginalAdminData] = useState<AdminData>({
+    id: "",
     name: "",
     email: "",
     role: "",
@@ -105,12 +106,20 @@ const Profile = () => {
     try {
       setLoading(true);
       const response = await api.put(
-        `api/admin/edit/${storedAdminData.id}`,
+        `api/admin/update/${adminDetails.id}`,
         changedFields
       );
 
       if (response.data.success) {
         showToast(response.data.success, "success");
+
+        if (response.data.admin) {
+          localStorage.setItem("admin", JSON.stringify(response.data.admin));
+        }
+
+        setTimeout(() => {
+          getAdminData();
+        }, 2000);
       }
     } catch (error: any) {
       if (error.response.data.error) {

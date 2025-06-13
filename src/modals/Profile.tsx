@@ -23,7 +23,6 @@ const Profile = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Fetch admin data from localStorage or API if needed
     const storedAdminData = localStorage.getItem("adminData");
     if (storedAdminData) {
       try {
