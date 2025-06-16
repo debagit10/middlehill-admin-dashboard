@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import api from "../utils/axiosInstance";
 import Toast from "../utils/Toast";
+import ChangePassword from "../modals/ChangePassword";
 
 interface AdminData {
   id: string;
@@ -337,6 +338,10 @@ const Profile = () => {
               />
             </div>
           </div>
+        </div>
+
+        <div>
+          <ChangePassword />
         </div>
       </div>
     </Pages>
