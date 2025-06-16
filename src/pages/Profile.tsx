@@ -110,11 +110,16 @@ const Profile = () => {
         changedFields
       );
 
+      console.log(response.data);
+
       if (response.data.success) {
         showToast(response.data.success, "success");
 
-        if (response.data.admin) {
-          localStorage.setItem("admin", JSON.stringify(response.data.admin));
+        if (response.data.success) {
+          localStorage.setItem(
+            "adminData",
+            JSON.stringify({ ...originalAdminData, ...changedFields })
+          );
         }
 
         setTimeout(() => {
