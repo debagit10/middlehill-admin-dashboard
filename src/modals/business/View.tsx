@@ -2,12 +2,16 @@ import { Icon, Typography } from "@mui/material";
 import { CiViewBoard } from "react-icons/ci";
 import { useNavigate } from "react-router-dom";
 
-const View = () => {
+interface BusinessState {
+  id: string;
+}
+
+const View: React.FC<BusinessState> = ({ id }) => {
   const navigate = useNavigate();
   return (
     <div
       className="flex gap-[4px] text-[#344054]"
-      onClick={() => navigate("/business/123")}
+      onClick={() => navigate(`/business/${id}`)}
     >
       <Icon>
         <CiViewBoard

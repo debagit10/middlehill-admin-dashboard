@@ -54,7 +54,7 @@ const Actions: React.FC<ActionsProps> = ({ businessData, refreshBusiness }) => {
           />
         </MenuItem>
         <MenuItem>
-          <View />
+          <View id={businessData.id} />
         </MenuItem>
       </Menu>
     </>
