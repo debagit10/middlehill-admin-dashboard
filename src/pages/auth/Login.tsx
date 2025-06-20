@@ -205,6 +205,8 @@ const Login = () => {
                 fontWeight={400}
                 sx={{ color: "#1D2739", fontFamily: "Open Sans, sans-serif" }}
                 fontSize={14}
+                onClick={() => navigate("/forgot-password")}
+                className="cursor-pointer hover:underline"
               >
                 Forgot password?
               </Typography>

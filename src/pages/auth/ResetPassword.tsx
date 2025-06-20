@@ -2,12 +2,63 @@ import { Typography, Grid, Button } from "@mui/material";
 import logo from "../../logo/Logo.png";
 import OtpInput from "../../utils/OtpInput";
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import api from "../../utils/axiosInstance";
+import Toast from "../../utils/Toast";
+
+interface ToastState {
+  open: boolean;
+  message: string;
+  severity: "success" | "info" | "error" | "warning";
+}
 
 const ResetPassword = () => {
+  const navigate = useNavigate();
   const [otp, setOtp] = React.useState<string>("");
+  const [loading, setLoading] = React.useState<boolean>(false);
 
-  const handleVerify = () => {
-    console.log("Submitted OTP:", otp);
+  const [toast, setToast] = React.useState<ToastState>({
+    open: false,
+    message: "",
+    severity: "info",
+  });
+
+  const showToast = (message: string, severity: ToastState["severity"]) => {
+    setToast({ open: true, message, severity });
+  };
+
+  const handleCloseToast = () => {
+    setToast((prev) => ({ ...prev, open: false }));
+    setLoading(false);
+
+    navigate("/new-password");
+  };
+
+  const adminData = localStorage.getItem("adminData");
+  const admin = adminData ? JSON.parse(adminData) : null;
+
+  const submit = async () => {
+    setLoading(true);
+
+    try {
+      const response = await api.post(`/api/user/verify-otp/`, {
+        id: admin.id,
+        otp,
+      });
+
+      if (response.data) {
+        setLoading(false);
+        showToast(response.data.success, "success");
+
+        return;
+      }
+    } catch (error: any) {
+      if (error.response.data.error) {
+        setLoading(false);
+        showToast(error.response.data.error, "error");
+        return;
+      }
+    }
   };
 
   return (
@@ -21,6 +72,13 @@ const ResetPassword = () => {
           Mid'hill Cash Flow
         </Typography>
       </div>
+
+      <Toast
+        open={toast.open}
+        message={toast.message}
+        severity={toast.severity}
+        onClose={handleCloseToast}
+      />
 
       <div className="flex justify-center items-center h-[90vh] bg-[#F7F9FC]">
         <div className="bg-[white] w-[602px] h-[361px] gap-[20px] flex flex-col p-[40px]">
@@ -81,8 +139,8 @@ const ResetPassword = () => {
                   fontFamily: "Open Sans, sans-serif",
                   height: "40px",
                 }}
-                onClick={handleVerify}
-                disabled={otp.length !== 4}
+                onClick={submit}
+                disabled={otp.length !== 4 || loading}
               >
                 Verify
               </Button>
