@@ -18,7 +18,7 @@ import { FiSearch } from "react-icons/fi";
 import { FiFilter } from "react-icons/fi";
 import Actions from "../components/business_mgt/Actions";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import api from "../utils/axiosInstance";
 
 interface BusinessState {
@@ -35,6 +35,7 @@ const Business_Mgt = () => {
 
   const [businesses, setBusinesses] = useState<BusinessState[]>();
   const [loading, setLoading] = useState<boolean>(true);
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   const getBusinesses = async () => {
     setLoading(true);
@@ -56,10 +57,21 @@ const Business_Mgt = () => {
     getBusinesses();
   }, []);
 
+  const filteredBusinesses = useMemo(() => {
+    if (!searchQuery.trim()) return businesses;
+    return businesses?.filter((business) =>
+      `${business.first_name} ${business.last_name} ${business.phone_number}`
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase())
+    );
+  }, [searchQuery, businesses]);
+
   return (
     <Pages page="Business Management">
       <div className="flex justify-between py-[1rem]">
         <TextField
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Search business"
           size="small"
           sx={{
@@ -125,8 +137,8 @@ const Business_Mgt = () => {
                   ))}
                 </TableRow>
               ))
-            ) : businesses && businesses.length > 0 ? (
-              businesses.map((business) => (
+            ) : filteredBusinesses && filteredBusinesses.length > 0 ? (
+              filteredBusinesses.map((business) => (
                 <TableRow
                   key={business.id}
                   sx={{
@@ -220,7 +232,9 @@ const Business_Mgt = () => {
                 <TableCell colSpan={5}>
                   <Box textAlign="center" py={4}>
                     <Typography variant="body1" color="textSecondary">
-                      No business found.
+                      {searchQuery
+                        ? "No matching businesses found."
+                        : "No businesses found."}
                     </Typography>
                   </Box>
                 </TableCell>

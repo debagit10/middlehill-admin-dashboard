@@ -17,7 +17,7 @@ import Pages from "../container/Pages";
 import Add_admin from "../modals/admin/Add_admin";
 import Actions from "../components/admin_mgt/Actions";
 import api from "../utils/axiosInstance";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import DayAndTime from "../utils/DayAndTime";
 
 interface AdminsState {
@@ -32,6 +32,8 @@ interface AdminsState {
 const Admin_Mgt = () => {
   const [admins, setAdmins] = useState<AdminsState[]>();
   const [loading, setLoading] = useState<boolean>(true);
+
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   const getAdmins = async () => {
     setLoading(true);
@@ -53,10 +55,21 @@ const Admin_Mgt = () => {
     getAdmins();
   }, []);
 
+  const filteredAdmins = useMemo(() => {
+    if (!searchQuery.trim()) return admins;
+    return admins?.filter((admin) =>
+      `${admin.name} ${admin.email}`
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase())
+    );
+  }, [searchQuery, admins]);
+
   return (
     <Pages page="Admin Management">
       <div className="flex justify-between py-[1rem]">
         <TextField
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Search admin"
           size="small"
           sx={{
@@ -94,15 +107,15 @@ const Admin_Mgt = () => {
             {loading ? (
               Array.from({ length: 5 }).map((_, index) => (
                 <TableRow key={index}>
-                  {Array.from({ length: 5 }).map((__, idx) => (
+                  {Array.from({ length: 6 }).map((__, idx) => (
                     <TableCell key={idx}>
                       <Skeleton variant="text" width="100%" height={30} />
                     </TableCell>
                   ))}
                 </TableRow>
               ))
-            ) : admins && admins.length > 0 ? (
-              admins.map((row) => (
+            ) : filteredAdmins && filteredAdmins.length > 0 ? (
+              filteredAdmins.map((row) => (
                 <TableRow
                   key={row.id}
                   sx={{
@@ -150,7 +163,6 @@ const Admin_Mgt = () => {
                       <DayAndTime date={row.createdAt} />
                     </Typography>
                   </TableCell>
-
                   <TableCell align="left">
                     <Chip
                       label={row.suspended ? "Suspended" : "Active"}
@@ -163,7 +175,6 @@ const Admin_Mgt = () => {
                       }}
                     />
                   </TableCell>
-
                   <TableCell align="left">
                     <Actions adminDetails={row} refreshAdmins={getAdmins} />
                   </TableCell>
@@ -171,10 +182,12 @@ const Admin_Mgt = () => {
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={5}>
+                <TableCell colSpan={6}>
                   <Box textAlign="center" py={4}>
                     <Typography variant="body1" color="textSecondary">
-                      No admins found. Please add an admin.
+                      {searchQuery
+                        ? "No matching admins found."
+                        : "No admins found. Please add an admin."}
                     </Typography>
                   </Box>
                 </TableCell>
