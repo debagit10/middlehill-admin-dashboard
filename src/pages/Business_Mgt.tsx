@@ -6,16 +6,19 @@ import {
   TableCell,
   TableBody,
   TextField,
-  Button,
   Chip,
   Typography,
   InputAdornment,
   Box,
   Skeleton,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
 } from "@mui/material";
 import Pages from "../container/Pages";
 import { FiSearch } from "react-icons/fi";
-import { FiFilter } from "react-icons/fi";
+// import { FiFilter } from "react-icons/fi";
 import Actions from "../components/business_mgt/Actions";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState, useMemo } from "react";
@@ -36,6 +39,7 @@ const Business_Mgt = () => {
   const [businesses, setBusinesses] = useState<BusinessState[]>();
   const [loading, setLoading] = useState<boolean>(true);
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [statusFilter, setStatusFilter] = useState<string>("all");
 
   const getBusinesses = async () => {
     setLoading(true);
@@ -58,17 +62,28 @@ const Business_Mgt = () => {
   }, []);
 
   const filteredBusinesses = useMemo(() => {
-    if (!searchQuery.trim()) return businesses;
-    return businesses?.filter((business) =>
-      `${business.first_name} ${business.last_name} ${business.phone_number}`
-        .toLowerCase()
-        .includes(searchQuery.toLowerCase())
-    );
-  }, [searchQuery, businesses]);
+    let results = businesses;
+
+    if (searchQuery.trim()) {
+      results = results?.filter((business) =>
+        `${business.first_name} ${business.last_name} ${business.phone_number}`
+          .toLowerCase()
+          .includes(searchQuery.toLowerCase())
+      );
+    }
+
+    if (statusFilter === "active") {
+      results = results?.filter((business) => !business.suspended);
+    } else if (statusFilter === "suspended") {
+      results = results?.filter((business) => business.suspended);
+    }
+
+    return results;
+  }, [searchQuery, statusFilter, businesses]);
 
   return (
     <Pages page="Business Management">
-      <div className="flex justify-between py-[1rem]">
+      <div className="flex justify-between items-center py-[1rem] gap-4 flex-wrap">
         <TextField
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
@@ -87,27 +102,23 @@ const Business_Mgt = () => {
             ),
           }}
         />
-        <Button
-          sx={{
-            paddingY: "8px",
-            paddingX: "16px",
-            textTransform: "capitalize",
-            color: "black",
-            borderRadius: "8px",
-            border: "1px solid #E7E9EB",
-          }}
-        >
-          <div className="flex gap-[8px] text-[#344054]">
-            <FiFilter className="pt-[3px] w-[16.76px] h-[16.76px]" />
-            <Typography
-              fontSize={14}
-              fontWeight={400}
-              fontFamily="Open Sans, sans-serif"
-            >
-              Filter
-            </Typography>
-          </div>
-        </Button>
+
+        <FormControl size="small" sx={{ minWidth: 150 }}>
+          <InputLabel>Status</InputLabel>
+          <Select
+            value={statusFilter}
+            label="Status"
+            onChange={(e) => setStatusFilter(e.target.value)}
+            sx={{
+              borderRadius: "8px",
+              backgroundColor: "#fff",
+            }}
+          >
+            <MenuItem value="all">All</MenuItem>
+            <MenuItem value="active">Active</MenuItem>
+            <MenuItem value="suspended">Suspended</MenuItem>
+          </Select>
+        </FormControl>
       </div>
 
       <TableContainer
