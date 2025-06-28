@@ -1,4 +1,4 @@
-import { Typography, TextField, Button, Grid } from "@mui/material";
+import { Typography, TextField, Button } from "@mui/material";
 import logo from "../../logo/logo.png";
 import React from "react";
 import { useNavigate } from "react-router-dom";
@@ -124,21 +124,8 @@ const ForgotPassword = () => {
             </div>
           </div>
 
-          <div className="flex justify-center">
-            <Typography
-              fontWeight={400}
-              sx={{ color: "#1D2739", fontFamily: "Open Sans, sans-serif" }}
-              fontSize={14}
-            >
-              Remembered your password?{" "}
-              <span className="text-blue-800" onClick={() => navigate("/")}>
-                Login
-              </span>
-            </Typography>
-          </div>
-
-          <Grid container spacing={2}>
-            <Grid item size={3}>
+          <div style={{ display: "flex", gap: "16px" }}>
+            <div style={{ flex: "0 0 25%" }}>
               <Button
                 onClick={() => navigate("/")}
                 variant="outlined"
@@ -152,9 +139,9 @@ const ForgotPassword = () => {
               >
                 Go back
               </Button>
-            </Grid>
+            </div>
 
-            <Grid item size={9}>
+            <div style={{ flex: "0 0 75%" }}>
               <Button
                 disabled={!email || loading}
                 onClick={submit}
@@ -170,8 +157,8 @@ const ForgotPassword = () => {
               >
                 {loading ? "Sending otp..." : "Send OTP"}
               </Button>
-            </Grid>
-          </Grid>
+            </div>
+          </div>
         </div>
       </div>
     </>

@@ -144,7 +144,7 @@ const Monthly_sales = () => {
           yAxis={[
             {
               max: ticks[ticks.length - 1],
-              ticks,
+              dataKey: "y",
               valueFormatter: formatNumber,
             },
           ]}

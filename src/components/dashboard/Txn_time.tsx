@@ -132,7 +132,7 @@ const Txn_time = () => {
           yAxis={[
             {
               max: ticks[ticks.length - 1],
-              ticks,
+              dataKey: "y",
               valueFormatter: (val: any) => val.toFixed(1),
             },
           ]}

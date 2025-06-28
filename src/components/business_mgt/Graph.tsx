@@ -111,7 +111,6 @@ const Graph: React.FC<TranactionProps> = ({ transactions }) => {
               scaleType: "point",
               label: "Days",
               dataKey: "x",
-              ticks: xTicks,
               valueFormatter: (value: string) =>
                 formatDayWithSuffix(Number(value)),
             },
@@ -120,7 +119,7 @@ const Graph: React.FC<TranactionProps> = ({ transactions }) => {
           yAxis={[
             {
               max: ticks[ticks.length - 1],
-              ticks,
+              dataKey: "y",
               valueFormatter: (value: string) => value.toString(),
               label: "Transactions",
             },
