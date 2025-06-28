@@ -1,32 +1,34 @@
 import {
-  TableContainer,
-  Table,
-  TableHead,
-  TableRow,
-  TableCell,
-  TableBody,
+  // TableContainer,
+  // Table,
+  // TableHead,
+  // TableRow,
+  // TableCell,
+  // TableBody,
   Typography,
-  Chip,
+  //Chip,
 } from "@mui/material";
-import DayAndTime from "../../utils/DayAndTime";
+// import DayAndTime from "../../utils/DayAndTime";
 
-const rows = [
-  {
-    retrieved: "2025-04-25T23:27:55.864Z",
-    status: false,
-    count: 150,
-  },
-  {
-    retrieved: "2025-04-25T23:27:55.864Z",
-    status: true,
-    count: 150,
-  },
-];
+// const rows = [
+//   {
+//     retrieved: "2025-04-25T23:27:55.864Z",
+//     status: false,
+//     count: 150,
+//   },
+//   {
+//     retrieved: "2025-04-25T23:27:55.864Z",
+//     status: true,
+//     count: 150,
+//   },
+// ];
+
+import { CiWarning } from "react-icons/ci";
 
 const Statement = () => {
   return (
     <div>
-      <TableContainer
+      {/* <TableContainer
         sx={{ borderRadius: "8px", border: "0.5px solid #D0D5DD" }}
       >
         <Table sx={{ minWidth: 650 }} aria-label="simple table" size="small">
@@ -86,7 +88,14 @@ const Statement = () => {
             ))}
           </TableBody>
         </Table>
-      </TableContainer>
+      </TableContainer> */}
+
+      <div className="flex justify-center items-center flex-col gap-[3rem]">
+        <CiWarning size={200} color="yellow" />
+        <Typography>
+          This tab is not functional yet. Please bear with us
+        </Typography>
+      </div>
     </div>
   );
 };

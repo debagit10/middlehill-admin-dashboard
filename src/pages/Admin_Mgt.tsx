@@ -11,6 +11,7 @@ import {
   Skeleton,
   Box,
   Chip,
+  TablePagination,
 } from "@mui/material";
 import { FiSearch } from "react-icons/fi";
 import Pages from "../container/Pages";
@@ -35,6 +36,20 @@ const Admin_Mgt = () => {
 
   const [searchQuery, setSearchQuery] = useState<string>("");
 
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
   const getAdmins = async () => {
     setLoading(true);
     try {
@@ -51,6 +66,16 @@ const Admin_Mgt = () => {
     }
   };
 
+  let adminId = "";
+
+  const adminString = localStorage.getItem("adminData");
+  if (adminString) {
+    const admin = JSON.parse(adminString);
+    adminId = admin.id;
+  }
+
+  console.log(adminId);
+
   useEffect(() => {
     getAdmins();
   }, []);
@@ -63,6 +88,12 @@ const Admin_Mgt = () => {
         .includes(searchQuery.toLowerCase())
     );
   }, [searchQuery, admins]);
+
+  const paginatedAdmins = useMemo(() => {
+    const start = page * rowsPerPage;
+    const end = start + rowsPerPage;
+    return filteredAdmins?.slice(start, end);
+  }, [filteredAdmins, page, rowsPerPage]);
 
   return (
     <Pages page="Admin Management">
@@ -114,8 +145,8 @@ const Admin_Mgt = () => {
                   ))}
                 </TableRow>
               ))
-            ) : filteredAdmins && filteredAdmins.length > 0 ? (
-              filteredAdmins.map((row) => (
+            ) : paginatedAdmins && paginatedAdmins.length > 0 ? (
+              paginatedAdmins.map((row) => (
                 <TableRow
                   key={row.id}
                   sx={{
@@ -130,7 +161,10 @@ const Admin_Mgt = () => {
                       fontWeight={500}
                       fontSize={14}
                     >
-                      {row.name}
+                      {row.name}{" "}
+                      {row.id === adminId && (
+                        <span className="text-sm text-gray-500">(you)</span>
+                      )}
                     </Typography>
                   </TableCell>
                   <TableCell align="left">
@@ -175,9 +209,11 @@ const Admin_Mgt = () => {
                       }}
                     />
                   </TableCell>
-                  <TableCell align="left">
-                    <Actions adminDetails={row} refreshAdmins={getAdmins} />
-                  </TableCell>
+                  {row.id !== adminId && (
+                    <TableCell align="left">
+                      <Actions adminDetails={row} refreshAdmins={getAdmins} />
+                    </TableCell>
+                  )}
                 </TableRow>
               ))
             ) : (
@@ -196,6 +232,16 @@ const Admin_Mgt = () => {
           </TableBody>
         </Table>
       </TableContainer>
+
+      <TablePagination
+        rowsPerPageOptions={[5, 10]}
+        component="div"
+        count={filteredAdmins?.length || 0}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
     </Pages>
   );
 };

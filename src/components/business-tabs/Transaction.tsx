@@ -25,26 +25,6 @@ interface TransactionProps {
 const Transaction: React.FC<TransactionProps> = ({ transactions }) => {
   return (
     <div>
-      {/* <div className="flex gap-[12px] items-center mb-[1rem]">
-        <Avatar>
-          <Typography
-            fontSize={18}
-            fontWeight={600}
-            fontFamily="Open Sans, sans-serif"
-            color="#101928"
-          >
-            JD
-          </Typography>
-        </Avatar>
-        <Typography
-          fontSize={28}
-          fontWeight={600}
-          fontFamily="Open Sans, sans-serif"
-          color="#101928"
-        >
-          John Doe
-        </Typography>
-      </div> */}
       <TableContainer
         sx={{ borderRadius: "8px", border: "0.5px solid #D0D5DD" }}
       >
@@ -59,68 +39,74 @@ const Transaction: React.FC<TransactionProps> = ({ transactions }) => {
             </TableRow>
           </TableHead>
 
-          <TableBody>
-            {transactions.map((transaction) => (
-              <TableRow
-                key={transaction.item_name}
-                sx={{
-                  height: "50px",
-                  "&:last-child td, &:last-child th": { border: 0 },
-                }}
-              >
-                <TableCell component="th" scope="row">
-                  <Typography
-                    color="#101928"
-                    sx={{ fontFamily: "Open Sans, sans-serif" }}
-                    fontWeight={500}
-                    fontSize={14}
-                  >
-                    {transaction.id}
-                  </Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography
-                    color="#344054"
-                    sx={{ fontFamily: "Open Sans, sans-serif" }}
-                    fontWeight={400}
-                    fontSize={14}
-                  >
-                    {transaction.item_name}
-                  </Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography
-                    color="#344054"
-                    sx={{ fontFamily: "Open Sans, sans-serif" }}
-                    fontWeight={400}
-                    fontSize={14}
-                  >
-                    {transaction.quantity}
-                  </Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography
-                    color="#344054"
-                    sx={{ fontFamily: "Open Sans, sans-serif" }}
-                    fontWeight={400}
-                    fontSize={14}
-                  >
-                    {transaction.amount}
-                  </Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography
-                    color="#344054"
-                    sx={{ fontFamily: "Open Sans, sans-serif" }}
-                    fontWeight={400}
-                    fontSize={14}
-                  >
-                    <DayAndTime date={transaction.createdAt} />
-                  </Typography>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
+          {transactions.length > 0 ? (
+            <TableBody>
+              {transactions.map((transaction) => (
+                <TableRow
+                  key={transaction.item_name}
+                  sx={{
+                    height: "50px",
+                    "&:last-child td, &:last-child th": { border: 0 },
+                  }}
+                >
+                  <TableCell component="th" scope="row">
+                    <Typography
+                      color="#101928"
+                      sx={{ fontFamily: "Open Sans, sans-serif" }}
+                      fontWeight={500}
+                      fontSize={14}
+                    >
+                      {transaction.id}
+                    </Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography
+                      color="#344054"
+                      sx={{ fontFamily: "Open Sans, sans-serif" }}
+                      fontWeight={400}
+                      fontSize={14}
+                    >
+                      {transaction.item_name}
+                    </Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography
+                      color="#344054"
+                      sx={{ fontFamily: "Open Sans, sans-serif" }}
+                      fontWeight={400}
+                      fontSize={14}
+                    >
+                      {transaction.quantity}
+                    </Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography
+                      color="#344054"
+                      sx={{ fontFamily: "Open Sans, sans-serif" }}
+                      fontWeight={400}
+                      fontSize={14}
+                    >
+                      {transaction.amount}
+                    </Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography
+                      color="#344054"
+                      sx={{ fontFamily: "Open Sans, sans-serif" }}
+                      fontWeight={400}
+                      fontSize={14}
+                    >
+                      <DayAndTime date={transaction.createdAt} />
+                    </Typography>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          ) : (
+            <div className="flex justify-center items-center ml-[20rem] my-[5rem]">
+              There are no recorded transactions
+            </div>
+          )}
         </Table>
       </TableContainer>
     </div>

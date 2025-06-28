@@ -28,7 +28,7 @@ const Dashboard = () => {
         </div>
 
         <div className="flex gap-[12px]">
-          <Button
+          {/* <Button
             variant="outlined"
             sx={{
               border: "1px solid #E5E5E5",
@@ -49,7 +49,7 @@ const Dashboard = () => {
             >
               Generate Report
             </Typography>
-          </Button>
+          </Button> */}
 
           <Add_admin />
         </div>

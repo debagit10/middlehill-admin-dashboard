@@ -15,6 +15,7 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  TablePagination,
 } from "@mui/material";
 import Pages from "../container/Pages";
 import { FiSearch } from "react-icons/fi";
@@ -40,6 +41,20 @@ const Business_Mgt = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
+
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  const handleChangePage = (event: unknown, newPage: number) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
   const getBusinesses = async () => {
     setLoading(true);
@@ -80,6 +95,12 @@ const Business_Mgt = () => {
 
     return results;
   }, [searchQuery, statusFilter, businesses]);
+
+  const paginatedBusinesses = useMemo(() => {
+    const start = page * rowsPerPage;
+    const end = start + rowsPerPage;
+    return filteredBusinesses?.slice(start, end);
+  }, [filteredBusinesses, page, rowsPerPage]);
 
   return (
     <Pages page="Business Management">
@@ -148,8 +169,8 @@ const Business_Mgt = () => {
                   ))}
                 </TableRow>
               ))
-            ) : filteredBusinesses && filteredBusinesses.length > 0 ? (
-              filteredBusinesses.map((business) => (
+            ) : paginatedBusinesses && paginatedBusinesses.length > 0 ? (
+              paginatedBusinesses.map((business) => (
                 <TableRow
                   key={business.id}
                   sx={{
@@ -254,6 +275,16 @@ const Business_Mgt = () => {
           </TableBody>
         </Table>
       </TableContainer>
+
+      <TablePagination
+        rowsPerPageOptions={[5, 10]}
+        component="div"
+        count={filteredBusinesses?.length || 0}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
     </Pages>
   );
 };
