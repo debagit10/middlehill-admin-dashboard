@@ -1,6 +1,6 @@
 import React from "react";
 import illustration from "../images/illustration.png";
-import logo from "../logo/logo.png";
+import logo from "../logo/Logo.png";
 import { Typography } from "@mui/material";
 
 interface ChildrenProps {
