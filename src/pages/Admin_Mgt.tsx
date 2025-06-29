@@ -128,7 +128,7 @@ const Admin_Mgt = () => {
               <TableCell>Name</TableCell>
               <TableCell align="left">Email</TableCell>
               <TableCell align="left">Role</TableCell>
-              <TableCell align="left">Last login</TableCell>
+              
               <TableCell align="left">Status</TableCell>
               <TableCell align="left" />
             </TableRow>
@@ -187,16 +187,7 @@ const Admin_Mgt = () => {
                       {row.role}
                     </Typography>
                   </TableCell>
-                  <TableCell align="left">
-                    <Typography
-                      color="#344054"
-                      sx={{ fontFamily: "Open Sans, sans-serif" }}
-                      fontWeight={400}
-                      fontSize={14}
-                    >
-                      <DayAndTime date={row.createdAt} />
-                    </Typography>
-                  </TableCell>
+                  
                   <TableCell align="left">
                     <Chip
                       label={row.suspended ? "Suspended" : "Active"}
