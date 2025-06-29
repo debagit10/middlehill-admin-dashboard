@@ -56,7 +56,7 @@ const Total_Business = () => {
       ? currentCount > 0
         ? 100
         : 0
-      : ((currentCount - previousCount) / previousCount) * 100;
+      : ((previousCount - currentCount) / previousCount) * 100;
 
   const growthRounded = growth.toFixed(1);
   const difference = currentCount - previousCount;

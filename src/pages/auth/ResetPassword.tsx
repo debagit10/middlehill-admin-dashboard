@@ -124,6 +124,7 @@ const ResetPassword = () => {
                   fontFamily: "Open Sans, sans-serif",
                   height: "40px",
                 }}
+                onClick={() => navigate("/forgot-password")}
               >
                 Go back
               </Button>

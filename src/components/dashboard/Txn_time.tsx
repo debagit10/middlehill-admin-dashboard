@@ -54,7 +54,7 @@ const Txn_time = () => {
 
     const numberOfDays = Object.keys(transactionsByDay).length;
     const intervalHours = intervals.map((i) => i.hour);
-    intervalHours.push(24); // For wrap-around to midnight
+    intervalHours.push(24);
 
     const intervalTransactionSums = intervals.map((interval, idx) => {
       let sum = 0;
@@ -121,23 +121,26 @@ const Txn_time = () => {
         </Box>
       ) : (
         <LineChart
-          dataset={chartData}
           xAxis={[
             {
-              scaleType: "point",
-              dataKey: "x",
+              scaleType: "band",
+              data: chartData.map((d) => d.x),
             },
           ]}
-          series={[{ dataKey: "y", showMark: false }]}
           yAxis={[
             {
               max: ticks[ticks.length - 1],
-              dataKey: "y",
               valueFormatter: (val: any) => val.toFixed(1),
             },
           ]}
-          height={340}
-          width={363}
+          series={[
+            {
+              data: chartData.map((d) => d.y),
+              showMark: false,
+            },
+          ]}
+          width={600}
+          height={300}
           grid={{ horizontal: true }}
         />
       )}

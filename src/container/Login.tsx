@@ -1,5 +1,5 @@
 import React from "react";
-import illustration from "../images/Illustration.png";
+import illustration from "../images/illustration.png";
 import logo from "../logo/logo.png";
 import { Typography } from "@mui/material";
 

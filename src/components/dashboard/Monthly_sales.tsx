@@ -135,17 +135,16 @@ const Monthly_sales = () => {
               data: chartData.map((d) => d.x),
             },
           ]}
+          yAxis={[
+            {
+              max: ticks[ticks.length - 1],
+              valueFormatter: formatNumber,
+            },
+          ]}
           series={[
             {
               data: chartData.map((d) => d.y),
               showMark: false,
-            },
-          ]}
-          yAxis={[
-            {
-              max: ticks[ticks.length - 1],
-              dataKey: "y",
-              valueFormatter: formatNumber,
             },
           ]}
           width={600}

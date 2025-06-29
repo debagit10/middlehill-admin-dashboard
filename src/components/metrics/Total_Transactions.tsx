@@ -57,7 +57,10 @@ const Total_Transactions = () => {
       : ((previousCount - currentCount) / previousCount) * 100;
 
   const growthRounded = growth.toFixed(1);
-  const difference = previousCount - currentCount;
+  const difference = currentCount - previousCount;
+
+  const growthValue = parseFloat(growthRounded);
+  const isGrowthPositive = growthValue >= 0;
 
   return (
     <div className="flex flex-col gap-[11px] bg-[#FFFFFF] py-[12px] px-[15px] rounded-[10px] w-[363px]">
@@ -104,8 +107,8 @@ const Total_Transactions = () => {
               fontWeight={600}
               sx={{
                 fontFamily: "Open Sans, sans-serif",
-                backgroundColor:
-                  parseFloat(growthRounded) >= 0 ? "#40C4AA33" : "#FFCDD233", // light green or light red
+                backgroundColor: isGrowthPositive ? "#40C4AA33" : "#FFCDD233",
+                color: isGrowthPositive ? "#287F6E" : "#D32F2F",
                 paddingX: "4px",
                 paddingY: "8px",
                 borderRadius: "6px",
@@ -113,12 +116,9 @@ const Total_Transactions = () => {
                   parseFloat(growthRounded) >= 0
                     ? "1px solid #40C4AA33"
                     : "1px solid #FFCDD233",
-                color: parseFloat(growthRounded) >= 0 ? "#287F6E" : "#D32F2F", // green or red
               }}
             >
-              {parseFloat(growthRounded) >= 0
-                ? `+${growthRounded}%`
-                : `${growthRounded}%`}
+              {isGrowthPositive ? `+${growthRounded}%` : `${growthRounded}%`}
             </Typography>
 
             <Typography

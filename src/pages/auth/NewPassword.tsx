@@ -1,5 +1,5 @@
 import { Typography, TextField, Button, InputAdornment } from "@mui/material";
-import logo from "../../logo/logo.png";
+import logo from "../../logo/Logo.png";
 import React from "react";
 import { VscEye, VscEyeClosed } from "react-icons/vsc";
 import Toast from "../../utils/Toast";

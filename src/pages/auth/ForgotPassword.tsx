@@ -1,5 +1,5 @@
 import { Typography, TextField, Button } from "@mui/material";
-import logo from "../../logo/logo.png";
+import logo from "../../logo/Logo.png";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import Toast from "../../utils/Toast";
