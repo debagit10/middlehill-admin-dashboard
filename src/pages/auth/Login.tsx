@@ -88,12 +88,18 @@ const Login = () => {
         return;
       }
     } catch (error: any) {
-      if (error.response.data.error) {
-        setLoading(false);
-        showToast(error.response.data.error, "error");
-        return;
-      }
-    }
+  const errMsg = error?.response?.data?.error;
+
+  if (errMsg) {
+    setLoading(false);
+    showToast(errMsg, "error");
+  } else {
+    setLoading(false);
+    showToast("An unexpected error occurred. Please try again.", "error");
+    console.error(error); // Optional: log the full error for debugging
+  }
+}
+
   };
 
   return (
